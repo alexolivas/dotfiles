@@ -5,14 +5,15 @@ The project contains all my home director's dotfiles (i.e. .bash_profile, .bashr
 ### Setup ###
 
 * Clone the project:
-``bash
+```bash
 git clone https://oaolivas@bitbucket.org/oaolivas/dotfiles.git
-``
+```
 * Give setup.sh execute permission: 
-``bash
+```bash
 chmod u+x setup.sh
-``
+```
+
 * Run setup to create symlinks in the user's home directory
-``bash
+```bash
 ./setup.sh
-``
+```
