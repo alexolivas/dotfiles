@@ -41,11 +41,14 @@ alias flushdns='sudo killall -HUP mDNSResponder'
 #########################
 # Hobsons aliases
 #########################
-# ORE
+# ORE Governor
 alias ore_governor='renametab governor.ore && ssh -v governor.ore.starfishsolutions.com'
 
-alias ore_web1_ea='renametab web1-ea.ore && ssh web1-ea.ore.starfishsolutions.com'
-alias ore_web2_ea='renametab web2-ea.ore && ssh web2-ea.ore.starfishsolutions.com'
+# -------------------------------------------------------------------------------------------------------------
+# Connect to these once you're SSH'd into the ORE Governor (running these outside the governor does not work)
+# -------------------------------------------------------------------------------------------------------------
+alias ore_web1_ea='renametab web1-ea.ore && ssh -v web1-ea.ore.starfishsolutions.com'
+alias ore_web2_ea='renametab web2-ea.ore && ssh -v web2-ea.ore.starfishsolutions.com'
 
 alias ore_ea='renametab db1.ore && ssh -f -N db1.ore && psql -h localhost -p 10000 -U starfish -d ea_ore'
 alias ore_sfadmin_ea='renametab sfadmin-db1.ore && ssh -f -N sfadmin-db1.ore && psql -h localhost -p 10001 -U starfish -d sfadmin_ea_ore'
