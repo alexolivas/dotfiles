@@ -6,7 +6,7 @@ The project contains all my home director's dotfiles (i.e. .bash_profile, .bashr
 
 * Clone the project:
 ```bash
-git clone https://oaolivas@bitbucket.org/oaolivas/dotfiles.git
+git clone git@bitbucket.org:oaolivas/dotfiles.git
 ```
 * Give setup.sh execute permission: 
 ```bash
