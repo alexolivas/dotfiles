@@ -11,5 +11,6 @@ files="bashrc bash_profile"    # list of files/folders to symlink in homedir
 
 for file in $files; do
     echo "Creating symlink: ~/.$file -> $dir/$file"
+    source ${dir}/${file}
     ln -s ${dir}/${file} ~/.${file}
 done
