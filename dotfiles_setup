@@ -7,10 +7,13 @@
 ########## Variables
 
 dir=$(pwd)
-files="bashrc bash_profile"    # list of files/folders to symlink in homedir
+files=".bashrc .bash_profile"    # list of files/folders to symlink in homedir
+
+# Create a symlink to this setup file
+ln -s ${dir}/dotfiles_setup ~/bin/dotfiles_setup
 
 for file in $files; do
-    echo "Creating symlink: ~/.$file -> $dir/$file"
+    echo "Creating symlink: ~/$file -> $dir/$file"
     source ${dir}/${file}
-    ln -s ${dir}/${file} ~/.${file}
+    ln -s ${dir}/${file} ~/${file}
 done
