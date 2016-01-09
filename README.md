@@ -11,5 +11,5 @@ git clone https://oaolivas@bitbucket.org/oaolivas/dotfiles.git
 
 * Run setup
 ```bash
-./dotfiles_setup
+dotfiles_setup
 ```
