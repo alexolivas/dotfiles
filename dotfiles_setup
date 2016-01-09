@@ -12,6 +12,9 @@ files=".bashrc .bash_profile"    # list of files/folders to symlink in homedir
 # Create a symlink to this setup file
 ln -s ${dir}/dotfiles_setup ~/bin/dotfiles_setup
 
+# Create a symlink to the webservers script
+ln -s ${dir}/webservers ~/bin/webservers
+
 for file in $files; do
     echo "Creating symlink: ~/$file -> $dir/$file"
     source ${dir}/${file}
