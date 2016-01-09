@@ -11,5 +11,6 @@ git clone https://oaolivas@bitbucket.org/oaolivas/dotfiles.git
 
 * Run setup to create symlinks in the user's home directory
 ```bash
-./dotfiles_setup
+cd ~
+dotfiles_setup
 ```
