@@ -9,8 +9,7 @@ The project contains all my home director's dotfiles (i.e. .bash_profile, .bashr
 git clone https://oaolivas@bitbucket.org/oaolivas/dotfiles.git
 ```
 
-* Run setup to create symlinks in the user's home directory
+* Run setup
 ```bash
-cd ~
-dotfiles_setup
+./dotfiles_setup
 ```
