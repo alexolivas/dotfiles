@@ -1,0 +1,72 @@
+#!/bin/bash
+
+TITLE=webservers
+SLEEP=0.5
+# USER=aolivas
+
+echo -n -e "\033]0;screen: [$TITLE]\007"
+
+if screen -ls | grep -q "$TITLE"; then 
+	screen -r $TITLE -p 0
+	exit 0
+fi
+
+screen -d -m -S $TITLE -t 'oaolivas.webfactional [git, signum, personal apps]'
+screen -S $TITLE -p 0 -X stuff "ssh oaolivas@oaolivas.webfactional.com
+"
+
+sleep $SLEEP
+
+screen -S $TITLE -p 0 -X screen -t 'sandbox1.webfactional [code lumen, toscano intl]'
+screen -S $TITLE -p 1 -X stuff "ssh sandbox1@sandbox1.webfactional.com
+"
+
+sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web5.sjc [starfish-batch-ops3, starfish-batch-ops4, starfish-batch-ops5]'
+# screen -S $TITLE -p 2 -X stuff "ssh ${USER}@web5.sjc.starfishsolutions.com
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web6.sjc [starfish-batch-ea4]'
+# screen -S $TITLE -p 3 -X stuff "ssh ${USER}@web6.sjc.starfishsolutions.com
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web1.ash [data-importer-ops, starfish-batch-ops-ash1]'
+# screen -S $TITLE -p 4 -X stuff "ssh ${USER}@web1.ash.starfishsolutions.com
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web2.ash [data-importer-beta, starfish-batch-ea-ash1, starfish-batch-ea-ash2]'
+# screen -S $TITLE -p 5 -X stuff "ssh ${USER}@web2.ash.starfishsolutions.com
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web3.ash [starfish-batch-ops-ash2, starfish-batch-ops-ash3, starfish-batch-ops-ash4]'
+# screen -S $TITLE -p 6 -X stuff "ssh ${USER}@web3.ash.starfishsolutions.com
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web4.ash [tomcat only]'
+# screen -S $TITLE -p 7 -X stuff "ssh ${USER}@web4.ash.starfishsolutions.com
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web1.irl [starfish-batch-ea-irl1, data-importer-beta]'
+# screen -S $TITLE -p 8 -X stuff "ssh ${USER}@172.32.1.83
+# "
+
+# sleep $SLEEP
+
+# screen -S $TITLE -p 0 -X screen -t 'web2.irl [starfish-batch-ops-irl1, data-importer-ops]'
+# screen -S $TITLE -p 9 -X stuff "ssh ${USER}@172.32.1.121
+# "
+
+screen -r $TITLE -p 0
