@@ -23,7 +23,7 @@ export PATH="/usr/local/bin:~/bin:$PATH"
 
 # Virtualwrapper Environment
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Development/Workspace
+export PROJECT_HOME=$HOME/Development/
 source /usr/local/bin/virtualenvwrapper.sh
 
 # record only the most recent duplicated command
