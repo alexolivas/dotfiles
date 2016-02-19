@@ -1,0 +1,73 @@
+Host *
+    TCPKeepAlive=yes
+    ServerAliveInterval=15
+    ServerAliveCountMax=6
+    ControlMaster auto
+    ControlPath /tmp/%r@%h:%p
+    ControlPersist yes
+    ForwardAgent yes
+
+
+# Host bitbucket.org
+#     HostName bitbucket.org
+#     PreferredAuthentications publickey
+#     IdentityFile ~/.ssh/bitbucket_rsa
+
+Host heroku.com
+     HostName heroku.com
+     PreferredAuthentications publickey
+     IdentityFile ~/.ssh/heroku_rsa
+
+
+# ====================================================================================================================
+# ============================================= HOBSONS SPECIFIC CONFIGS =============================================
+# ====================================================================================================================
+
+
+# ######################################
+# DCA BASTION
+# ######################################
+
+Host *.starfishsolutions.com
+    User aolivas
+    IdentityFile ~/.ssh/hobsons_rsa
+    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+
+
+# ######################################
+# IRL WEB1
+# ######################################
+
+Host web1.irl
+    Hostname web1.irl.external.starfishsolutions.com
+    User aolivas
+    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+
+
+# ######################################
+# IRL WEB2
+# ######################################
+
+Host web2.irl
+    Hostname web2.irl.external.starfishsolutions.com
+    User aolivas
+    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+
+
+# ######################################
+# ORE
+# ######################################
+
+Host nat.ore.starfishsolutions.com
+    IdentityFile ~/.ssh/hobsons_rsa
+    ProxyCommand  ssh -W %h:%p rightscale@bastion.ore.starfishsolutions.com
+
+
+# ######################################
+# Docker Dojo
+# ######################################
+
+#Host docker.dojo
+    Hostname docker-dojo.starfishsolutions.com
+    User aolivas
+    ProxyCommand  ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local

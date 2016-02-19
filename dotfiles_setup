@@ -15,6 +15,9 @@ ln -s ${dir}/dotfiles_setup ~/bin/dotfiles_setup
 # Create a symlink to the webservers script
 ln -s ${dir}/webservers ~/bin/webservers
 
+# Create a symlink to the ssh config script
+ln -s ${dir}/config ~/.ssh/config
+
 for file in $files; do
     echo "Creating symlink: ~/$file -> $dir/$file"
     source ${dir}/${file}

@@ -23,7 +23,7 @@ export PATH="/usr/local/bin:~/bin:$PATH"
 
 # Virtualwrapper Environment
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Development/
+export PROJECT_HOME=$HOME/Development
 source /usr/local/bin/virtualenvwrapper.sh
 
 # record only the most recent duplicated command
@@ -65,38 +65,11 @@ alias ore_ea_ash='renametab ea-ash.db && ssh -f -N ea-ash.db && psql -h localhos
 alias ore_ea2_ash='renametab ea2-ash.db && psql -U starfish -d ea2_ash -h ea2-ash.db.starfishsolutions.com'
 
 # TO Connect to the ops db run the following:
-psql -U starfish -d ops_ore -h db2.ore.starfishsolutions.com
+#psql -U starfish -d ops_ore -h db2.ore.starfishsolutions.com
 
 
-alias ore_ops='renametab db2.ore && ssh -f -N db2.ore && psql -h localhost -p 10011 -U starfish -d ea_ore'
-alias ore_sfadmin_ops='renametab sfadmin-db2.ore && ssh -f -N sfadmin-db2.ore && psql -h localhost -p 10012 -U starfish -d sfadmin_ea_ore'
-
-# SJC
-alias sjc_web3='renametab web3.sjc && ssh web3.sjc.starfishsolutions.com'
-alias sjc_web4='renametab web4.sjc && ssh web4.sjc.starfishsolutions.com'
-alias sjc_web5='renametab web5.sjc && ssh web5.sjc.starfishsolutions.com'
-alias sjc_web6='renametab web6.sjc && ssh web6.sjc.starfishsolutions.com'
-alias sjc_db4='renametab db4.sjc && ssh db4.sjc.starfishsolutions.com'
-alias sjc_db5='renametab db5.sjc && ssh db5.sjc.starfishsolutions.com'
-alias sjc_db6='renametab db6.sjc && ssh db6.sjc.starfishsolutions.com'
-alias sjc_db7='renametab db7.sjc && ssh db7.sjc.starfishsolutions.com'
-alias sjc_db8='renametab db8.sjc && ssh db8.sjc.starfishsolutions.com'
-alias sjc_db9='renametab db9.sjc && ssh db9.sjc.starfishsolutions.com'
-alias sjc_db10='renametab db10.sjc && ssh db10.sjc.starfishsolutions.com'
-alias sjc_db11='renametab db11.sjc && ssh db11.sjc.starfishsolutions.com'
-
-# ASH
-alias ash_web1='renametab web1.ash && ssh web1.ash.starfishsolutions.com'
-alias ash_web2='renametab web2.ash && ssh web2.ash.starfishsolutions.com'
-alias ash_web3='renametab web3.ash && ssh web3.ash.starfishsolutions.com'
-alias ash_web4='renametab web4.ash && ssh web4.ash.starfishsolutions.com'
-alias ash_db2='renametab db2.ash && ssh db2.ash.starfishsolutions.com'
-alias ash_db3='renametab db3.ash && ssh db3.ash.starfishsolutions.com'
-alias ash_db4='renametab db4.ash && ssh db4.ash.starfishsolutions.com'
-alias ash_db5='renametab db5.ash && ssh db5.ash.starfishsolutions.com'
-alias ash_db6='renametab db6.ash && ssh db6.ash.starfishsolutions.com'
-alias ash_db7='renametab db7.ash && ssh db7.ash.starfishsolutions.com'
-alias ash_db8='renametab db8.ash && ssh db8.ash.starfishsolutions.com'
+#alias ore_ops='renametab db2.ore && ssh -f -N db2.ore && psql -h localhost -p 10011 -U starfish -d ea_ore'
+#alias ore_sfadmin_ops='renametab sfadmin-db2.ore && ssh -f -N sfadmin-db2.ore && psql -h localhost -p 10012 -U starfish -d sfadmin_ea_ore'
 
 # IRL
 alias irl_web1='renametab web1.irl && ssh web1.irl.external.starfishsolutions.com'
