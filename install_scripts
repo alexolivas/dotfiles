@@ -3,31 +3,37 @@
 # This project should exist inside my dropbox directory, that way when I setup a new computer, its already there to just run dotfiles_install
 
 # Variables
+CYAN="\033[36m"
+BLUE="\033[34m"
+GREEN="\033[32m"
+RED="\033[31m"
+ENDCOLOR="\033[m"
+
 dir=$(pwd)
 bin=$HOME/Dropbox/bin
 
 echo "================================================================"
-echo "[BEGIN] Installing 'dotfiles' scripts on your computer          "
+echo -e "[$GREEN BEGIN $ENDCOLOR] Installing 'dotfiles' scripts on your computer          "
 echo "================================================================"
 
 # Create a bin directory inside of dropbox, delete if one exists. This project contains all
 # the scripts I will use. Custom scripts should only be created inside this project then
 # installed by executing this bash file. By deleting the existing bin directory we will ensure
 # that we will keep things in sync.
-echo "[INFO] Creating bin directory.."
+echo "[ INFO ] Creating bin directory.."
 rm -rf $bin
 mkdir -p $bin
 
 # Copy over all the scripts from this project into the bin directory with execute permissions
 scripts=$dir/scripts/*
-echo "[INFO] Granting owner execute permissions to scripts.."
+echo "[ INFO ] Granting owner execute permissions to scripts.."
 for script in $scripts; do
-    echo "[INFO] chmod u+x $script"
+    echo -e "[ INFO ] chmod u+x $BLUE $script $ENDCOLOR"
     chmod u+x $script
     cp -p $script $bin
 done
-echo "[INFO] Copying scripts to $bin"
+echo -e "[ INFO ] Copying scripts to $BLUE $bin $ENDCOLOR"
 
 # Source .bash_profile so these scripts are available immediately without starting a new shell session
 . $HOME/.bash_profile
-echo "[END] Scripts are now available for use"
+echo -e "[$GREEN END $ENDCOLOR] Scripts are now available for use"

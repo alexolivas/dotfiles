@@ -7,27 +7,33 @@
 # TODO: Update the project's working directory so they match in both computers
 
 # Global Variables
-dir=$(pwd)
+CYAN="\033[36m"
+BLUE="\033[34m"
+GREEN="\033[32m"
+RED="\033[31m"
+ENDCOLOR="\033[m"
+
+#dir=$HOME/Dropbox/dotfiles
+dir=$(pwd) # TODO: Change this to the project's directory
 
 echo "====================================================="
-echo "[BEGIN] dotfiles setup.."
+echo -e "[$GREEN BEGIN $ENDCOLOR] Updating computer's dotfiles"
 echo "====================================================="
 
-# Install all bash dotfiles
-echo "[INFO] Installing bash dotfiles.."
+# Install all bash shell dotfiles
 bashfiles=".bashrc .bash_profile"
 
 for file in $bashfiles; do
-    echo "[BASH] Updating local file: $file"
-    rm ~/$file
-    cp $dir/bash/$file ~/$file
-    . ~/$file
+    echo -e "[ INFO ] Updating bash dotfile: [$BLUE $file $ENDCOLOR]"
+    rm -rf $HOME/$file
+    cp $dir/shell/$file $HOME/$file
+    . $HOME/$file
 done
 
-echo " "
-echo "[INFO] Installing ssh related files.."
 # Next we will copy this project's version of the ssh config to the ~/.ssh directory
-echo "[SSH] Updating config file"
-sshdir=~/.ssh/
-rm $sshdir/config
+echo -e "[ INFO ] Updating SSH config:   [$BLUE config $ENDCOLOR]"
+sshdir=~/.ssh
+rm -rf $sshdir/config
 cp $dir/ssh/config $sshdir/config
+
+echo -e "[$GREEN END $ENDCOLOR] Computer's dotfiles updated successfully"
