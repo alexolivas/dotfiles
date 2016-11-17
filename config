@@ -13,10 +13,24 @@ Host *
 #     PreferredAuthentications publickey
 #     IdentityFile ~/.ssh/bitbucket_rsa
 
-Host heroku.com
-     HostName heroku.com
-     PreferredAuthentications publickey
-     IdentityFile ~/.ssh/heroku_rsa
+# Host heroku.com
+#     HostName heroku.com
+#     PreferredAuthentications publickey
+#     IdentityFile ~/.ssh/heroku_rsa
+
+# ===============================================================================================================
+# ============================================= Web Faction CONFIGS =============================================
+# ===============================================================================================================
+
+Host sandbox1.webfaction
+    User sandbox1
+    IdentityFile ~/.ssh/webfaction_dsa
+    ProxyCommand ssh -W %h:%p sandbox1@sandbox1.webfactional.com
+
+Host oaolivas.webfaction
+    User oaolivas
+    IdentityFile ~/.ssh/webfaction_dsa
+    ProxyCommand ssh -W %h:%p oaolivas@oaolivas.webfactional.com
 
 
 # ====================================================================================================================
@@ -24,15 +38,21 @@ Host heroku.com
 # ====================================================================================================================
 
 
-# ######################################
-# DCA BASTION
-# ######################################
-
 Host *.starfishsolutions.com
     User aolivas
     IdentityFile ~/.ssh/hobsons_rsa
     ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
 
+# ######################################
+# DCA BASTION
+# ######################################
+
+Host 172.30.*.*
+    User rightscale
+    IdentityFile ~/.ssh/hobsons_right_scale_rsa
+    ProxyCommand  ssh -W %h:%p rightscale@bastion.ore.starfishsolutions.com
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
 
 # ######################################
 # IRL WEB1
@@ -54,22 +74,3 @@ Host web2.irl
     User aolivas
     IdentityFile ~/.ssh/hobsons_rsa
     ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
-
-
-# ######################################
-# ORE
-# ######################################
-
-Host nat.ore.starfishsolutions.com
-    IdentityFile ~/.ssh/hobsons_rsa
-    ProxyCommand  ssh -W %h:%p rightscale@bastion.ore.starfishsolutions.com
-
-
-# ######################################
-# Docker Dojo
-# ######################################
-
-#Host docker.dojo
-    Hostname docker-dojo.starfishsolutions.com
-    User aolivas
-    ProxyCommand  ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local

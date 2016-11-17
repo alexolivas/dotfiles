@@ -19,7 +19,11 @@ function renametab () {
 # Variables
 #######################################################
 # Path
-export PATH="/usr/local/bin:~/bin:$PATH"
+
+# Set the different bin locations in your path
+PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
+[ -d "$HOME/Dropbox/bin" ] && PATH="$HOME/Dropbox/bin:$PATH"
+export PATH=$PATH
 
 # Virtualwrapper Environment
 export WORKON_HOME=$HOME/.virtualenvs
@@ -38,52 +42,12 @@ export HISTSIZE=4096
 alias grep='grep --color=auto'
 alias flushdns='sudo killall -HUP mDNSResponder'
 
-#########################
-# Hobsons aliases
-#########################
+###################################
+# Hobsons specific aliases
+###################################
+
 # ORE Governor
 alias ore_governor='renametab governor.ore && ssh -v governor.ore.starfishsolutions.com'
 
-# -------------------------------------------------------------------------------------------------------------
-# Connect to these once you're SSH'd into the ORE Governor (running these outside the governor does not work)
-# -------------------------------------------------------------------------------------------------------------
-alias ore_web1_ea='renametab web1-ea.ore && ssh -v web1-ea.ore.starfishsolutions.com'
-alias ore_web2_ea='renametab web2-ea.ore && ssh -v web2-ea.ore.starfishsolutions.com'
-
-alias ore_ea='renametab db1.ore && ssh -f -N db1.ore && psql -h localhost -p 10000 -U starfish -d ea_ore'
-alias ore_sfadmin_ea='renametab sfadmin-db1.ore && ssh -f -N sfadmin-db1.ore && psql -h localhost -p 10001 -U starfish -d sfadmin_ea_ore'
-alias ore_ccsf_test='renametab ccsf-test.db && ssh -f -N ccsf-test.db && psql -h localhost -p 10003 -U starfish -d ccsf_test'
-alias ore_4cd_test='renametab 4cd-test.db && ssh -f -N 4cd-test.db && psql -h localhost -p 10004 -U starfish -d 4cd_test'
-alias ore_scccd_test='renametab scccd-test.db && ssh -f -N scccd-test.db && psql -h localhost -p 10005 -U starfish -d scccd_test'
-alias ore_elcamino_test='renametab elcamino-test.db && ssh -f -N elcamino-test.db && psql -h localhost -p 10006 -U starfish -d elcamino_test'
-alias ore_vvc_test='renametab vvc-test.db && ssh -f -N vvc-test.db && psql -h localhost -p 10007 -U starfish -d vvc_test'
-alias ore_santarosa_test='renametab santarosa-test.db && ssh -f -N santarosa-test.db && psql -h localhost -p 10008 -U starfish -d santarosa_test'
-alias ore_sbccd_test='renametab sbccd-test.db && ssh -f -N sbccd-test.db && psql -h localhost -p 10009 -U starfish -d sbccd_test'
-alias ore_ea_ash='renametab ea-ash.db && ssh -f -N ea-ash.db && psql -h localhost -p 10010 -U starfish -d ea_ash'
-
-# TEST: This one is different than the alias command above
-alias ore_ea2_ash='renametab ea2-ash.db && psql -U starfish -d ea2_ash -h ea2-ash.db.starfishsolutions.com'
-
-# TO Connect to the ops db run the following:
-#psql -U starfish -d ops_ore -h db2.ore.starfishsolutions.com
-
-
-#alias ore_ops='renametab db2.ore && ssh -f -N db2.ore && psql -h localhost -p 10011 -U starfish -d ea_ore'
-#alias ore_sfadmin_ops='renametab sfadmin-db2.ore && ssh -f -N sfadmin-db2.ore && psql -h localhost -p 10012 -U starfish -d sfadmin_ea_ore'
-
-# IRL
-alias irl_web1='renametab web1.irl && ssh web1.irl.external.starfishsolutions.com'
-alias irl_web2='renametab web2.irl && ssh web2.irl.external.starfishsolutions.com'
-alias irl_db1='renametab db1.irl && ssh -f -N db1.irl && psql -h localhost -p 12000 -U starfish -d ea_irl'
-alias irl_db2='renametab db2.irl && ssh -f -N db2.irl && psql -h localhost -p 12001 -U starfish -d ops_irl'
-
-# STAGING
-alias stage='renametab stage && ssh stage.starfishsolutions.com'
-alias stage_rc='renametab stage-rc && ssh stage-rc.starfishsolutions.com'
-alias stage_ea='renametab stage-ea && ssh stage-ea.starfishsolutions.com'
-alias stage_ops='renametab stage-ops && ssh stage-ops.starfishsolutions.com'
-alias stage_db='renametab stage db && ssh -f -N stage.db && psql -h localhost -p 9000 -U starfish -d stage'
-alias stage_rc_db='renametab stage-rc db && ssh -f -N stage-rc.db && psql -h localhost -p 9001 -U starfish -d stage_rc'
-alias stage_ea_db='renametab stage-ea db && ssh -f -N stage-ea.db && psql -h localhost -p 9002 -U starfish -d stage_ea'
-alias stage_ops_db='renametab stage-ops db && ssh -f -N stage-ops.db && psql -h localhost -p 9003 -U starfish -d stage_ops'
-
+# IRL Governor
+# alias irl_governor='renametab governor.irl && ssh -v governor.irl.starfishsolutions.com'
