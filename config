@@ -41,6 +41,7 @@ Host *.starfishsolutions.com
 Host web1.irl
     Hostname web1.irl.external.starfishsolutions.com
     User aolivas
+    IdentityFile ~/.ssh/hobsons_rsa
     ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
 
 
@@ -51,6 +52,7 @@ Host web1.irl
 Host web2.irl
     Hostname web2.irl.external.starfishsolutions.com
     User aolivas
+    IdentityFile ~/.ssh/hobsons_rsa
     ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
 
 
