@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Install brew and pip (make this a script inside the osx directory)
+
+# Install virtualenv and virtualenvwrapper
+
+# Create development environment directory (make this a script inside the osx directory)

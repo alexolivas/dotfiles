@@ -5,3 +5,5 @@ if [ -f ~/.bashrc ]; then
    . ~/.bashrc
 fi
 
+export JAVA_HOME=$(/usr/libexec/java_home)
+#export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_67.jdk/Contents/Home"
