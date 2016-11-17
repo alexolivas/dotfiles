@@ -4,7 +4,6 @@
 # This script updates the current version's of dot files and SSH config
 ############################
 
-# TODO: Update the project's working directory so they match in both computers
 
 # Global Variables
 CYAN="\033[36m"
@@ -12,9 +11,7 @@ BLUE="\033[34m"
 GREEN="\033[32m"
 RED="\033[31m"
 ENDCOLOR="\033[m"
-
-#dir=$HOME/Dropbox/dotfiles
-dir=$(pwd) # TODO: Change this to the project's directory
+dir=$HOME/Dropbox/dotfiles # Project directory: The project will be checked out in dropbox
 
 echo "====================================================="
 echo -e "[$GREEN BEGIN $ENDCOLOR] Updating computer's dotfiles"
@@ -36,4 +33,4 @@ sshdir=~/.ssh
 rm -rf $sshdir/config
 cp $dir/ssh/config $sshdir/config
 
-echo -e "[$GREEN END $ENDCOLOR] Computer's dotfiles updated successfully"
+echo -e "[$GREEN END $ENDCOLOR] Update Complete"
