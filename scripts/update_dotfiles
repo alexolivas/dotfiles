@@ -11,6 +11,10 @@ BLUE="\033[34m"
 GREEN="\033[32m"
 RED="\033[31m"
 ENDCOLOR="\033[m"
+
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+
 dir=$HOME/Dropbox/dotfiles # Project directory: The project will be checked out in dropbox
 
 echo "====================================================="
