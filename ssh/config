@@ -18,9 +18,9 @@ Host *
 #     PreferredAuthentications publickey
 #     IdentityFile ~/.ssh/heroku_rsa
 
-# ===============================================================================================================
-# ============================================= Web Faction CONFIGS =============================================
-# ===============================================================================================================
+# ==============================================================================================
+# ============================== Web Faction CONFIGS ===========================================
+# ==============================================================================================
 
 Host sandbox1.webfaction
     User sandbox1
@@ -33,18 +33,31 @@ Host oaolivas.webfaction
     ProxyCommand ssh -W %h:%p oaolivas@oaolivas.webfactional.com
 
 
-# ====================================================================================================================
-# ============================================= HOBSONS SPECIFIC CONFIGS =============================================
-# ====================================================================================================================
+# ==============================================================================================
+# ============================= HOBSONS SPECIFIC CONFIGS =======================================
+# ==============================================================================================
 
 
-Host *.starfishsolutions.com
-    User aolivas
-    IdentityFile ~/.ssh/hobsons_rsa
-    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+# Host *.starfishsolutions.com
+#    User aolivas
+#    IdentityFile ~/.ssh/hobsons_rsa
+#    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+
 
 # ######################################
-# DCA BASTION
+# STAGE bastion
+# ######################################
+
+Host 172.31.*.*
+    User rightscale
+    IdentityFile ~/.ssh/hobsons_right_scale_rsa
+    ProxyCommand  ssh -W %h:%p rightscale@bastion.dev.starfishsolutions.com
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+
+
+# ######################################
+# ORE bastion
 # ######################################
 
 Host 172.30.*.*
@@ -54,23 +67,36 @@ Host 172.30.*.*
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
 
+
+# ######################################
+# IRL bastion
+# ######################################
+
+Host 172.32.*.*
+    User rightscale
+    IdentityFile ~/.ssh/hobsons_right_scale_rsa
+    ProxyCommand  ssh -W %h:%p aolivas@bastion.irl.starfishsolutions.com
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+
+
 # ######################################
 # IRL WEB1
 # ######################################
 
-Host web1.irl
-    Hostname web1.irl.external.starfishsolutions.com
-    User aolivas
-    IdentityFile ~/.ssh/hobsons_rsa
-    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+# Host web1.irl
+#    Hostname web1.irl.external.starfishsolutions.com
+#    User aolivas
+#    IdentityFile ~/.ssh/hobsons_rsa
+#    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
 
 
 # ######################################
 # IRL WEB2
 # ######################################
 
-Host web2.irl
-    Hostname web2.irl.external.starfishsolutions.com
-    User aolivas
-    IdentityFile ~/.ssh/hobsons_rsa
-    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
+# Host web2.irl
+#    Hostname web2.irl.external.starfishsolutions.com
+#    User aolivas
+#    IdentityFile ~/.ssh/hobsons_rsa
+#    ProxyCommand ssh -W %h:%p aolivas@dca-sf-01.Hobsons.local
