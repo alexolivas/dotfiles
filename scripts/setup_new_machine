@@ -28,9 +28,9 @@ function installHomebrew() {
         echo -e "$BLUE INFO $ENDCOLOR Installing.."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     else
-        # brew is already installed, update it
-        echo -e "$BLUE INFO $ENDCOLOR Updating existing version.."
-        brew update
+        # brew is already installed
+        echo -e "$BLUE INFO $ENDCOLOR found existing installation.."
+#        brew update
     fi
 
     echo " "
@@ -49,8 +49,9 @@ function installHomebrew() {
         if ! brew info $formula &>/dev/null; then
             # The formula is not installed
             brew install $formula
-#        else
-#            # The formula is installed, let's see if there's an upgrade
+        else
+            # The formula is installed, let's see if there's an upgrade
+            echo -e "$RED $formula $ENDCOLOR is already installed"
 #            brew upgrade $formula
         fi
 
@@ -87,7 +88,8 @@ function installPipPackages() {
             pip install $package
         else
             # The package is installed, let's see if we can upgrade it
-            pip install --upgrade $package
+            echo -e "$RED $package $ENDCOLOR is already installed"
+#            pip install --upgrade $package
         fi
         echo ""
     done
