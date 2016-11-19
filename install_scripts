@@ -61,5 +61,7 @@ echo -e "[ INFO ] Copying scripts to $BLUE $hobsonsBin $ENDCOLOR"
 echo ""
 
 # Source .bash_profile so these scripts are available immediately without starting a new shell session
+echo -e "[$GREEN INFO $ENDCOLOR] Running command: $BLUE . $HOME/.bash_profile$ENDCOLOR"
 . $HOME/.bash_profile
-echo -e "[$GREEN END $ENDCOLOR] Scripts are now available for use"
+echo ""
+echo -e "[$GREEN END $ENDCOLOR] Scripts are now available for use within this shell session"
