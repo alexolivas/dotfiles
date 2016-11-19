@@ -74,7 +74,7 @@ Host 172.30.*.*
 
 Host 172.32.*.*
     User rightscale
-    IdentityFile ~/.ssh/hobsons_right_scale_rsa
+    IdentityFile ~/.ssh/hobsons_rsa
     ProxyCommand  ssh -W %h:%p aolivas@bastion.irl.starfishsolutions.com
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
