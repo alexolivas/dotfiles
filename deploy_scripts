@@ -31,7 +31,7 @@ dir=$(pwd)
 dropboxBin=$HOME/Dropbox/bin
 
 echo "================================================================================"
-echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Installing your latest scripts and settings on this computer"
+echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Installing your latest scripts on this computer"
 echo "================================================================================"
 
 echo ""
@@ -71,7 +71,7 @@ echo ""
 # by running the ./update_dotfiles script, otherwise, source the .bash_profile so these scripts
 # are available within this and any future bash sessions.
 if [ ! -f "$HOME/.bash_profile" ]; then
-    echo -e "[$YELLOW ${BOLD}WARNING$ENDCOLOR ${NORMAL}] $YELLOW.bash_profile not found, to fix run the script:$ENDCOLOR $BLUE ./update_dotfiles $ENDCOLOR from$BLUE $dir/scripts/$ENDCOLOR"
+    echo -e "[$YELLOW ${BOLD}WARNING$ENDCOLOR ${NORMAL}] $YELLOW.bash_profile not found, to fix run the script:$ENDCOLOR $BLUE ./dotfiles_install $ENDCOLOR from$BLUE $dir/scripts/$ENDCOLOR"
 else
     # Source .bash_profile so these scripts are available immediately without starting a new shell session
     echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] ${BOLD}Sourcing .bash_profile to make scripts available within this shell session${NORMAL}"

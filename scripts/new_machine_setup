@@ -184,13 +184,13 @@ function projectSubdirectoryHelper() {
     done
 }
 
-function createDotfiles() {
+function runDotfilesInstall() {
     echo ""
     echo "================================================================="
-    echo -e "$GREEN ${BOLD}STEP 6: Create computer's dotfiles $ENDCOLOR ${NORMAL}"
+    echo -e "$GREEN ${BOLD}STEP 6: Install dotfiles $ENDCOLOR ${NORMAL}"
     echo "================================================================="
     echo ""
-    update_dotfiles
+    dotfiles_install
     echo ""
 }
 
@@ -210,7 +210,7 @@ function setOSXDefaults() {
 installHomebrew
 installPipPackages
 createDevelopmentEnvironmentDirectoryStructure
-createDotfiles
+runDotfilesInstall
 setOSXDefaults
 echo ""
 echo "================================================================="

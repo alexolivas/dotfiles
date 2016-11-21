@@ -24,9 +24,9 @@ fi
 # the check above this verifies that it exists before continuing
 dir=$HOME/Dropbox/dotfiles
 
-echo "====================================================="
-echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Updating this computer's dotfiles"
-echo "====================================================="
+#echo "====================================================="
+#echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Updating this computer's dotfiles"
+#echo "====================================================="
 
 # Install all bash shell dotfiles
 bashfiles=".bashrc .bash_profile"
