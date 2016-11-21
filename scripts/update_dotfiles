@@ -18,23 +18,23 @@ NORMAL=$(tput sgr0)
 dir=$HOME/Dropbox/dotfiles # Project directory: The project will be checked out in dropbox
 
 echo "====================================================="
-echo -e "[$GREEN BEGIN $ENDCOLOR] Updating computer's dotfiles"
+echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Updating computer's dotfiles"
 echo "====================================================="
 
 # Install all bash shell dotfiles
 bashfiles=".bashrc .bash_profile"
 
 for file in $bashfiles; do
-    echo -e "[ INFO ] Updating bash dotfile: [$BLUE $file $ENDCOLOR]"
+    echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Updating bash dotfile: [$BLUE $file $ENDCOLOR]"
     rm -rf $HOME/$file
     cp $dir/shell/$file $HOME/$file
     . $HOME/$file
 done
 
 # Next we will copy this project's version of the ssh config to the ~/.ssh directory
-echo -e "[ INFO ] Updating SSH config:   [$BLUE config $ENDCOLOR]"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Updating SSH config:   [$BLUE config $ENDCOLOR]"
 sshdir=~/.ssh
 rm -rf $sshdir/config
 cp $dir/ssh/config $sshdir/config
 
-echo -e "[$GREEN END $ENDCOLOR] Update Complete"
+echo -e "[$GREEN ${BOLD}END$ENDCOLOR ${NORMAL}] Update Complete"

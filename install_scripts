@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# This project should exist inside my dropbox directory, that way when I setup a new computer, its already there to just run dotfiles_install
-
 # Variables
 CYAN="\033[36m"
 BLUE="\033[34m"
@@ -9,59 +7,61 @@ GREEN="\033[32m"
 RED="\033[31m"
 ENDCOLOR="\033[m"
 
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+
 dir=$(pwd)
-# TODO: my scripts should not be in dropbox, find a different place
 customBin=$HOME/Dropbox/bin
 hobsonsBin=$HOME/bin
 
 echo "================================================================"
-echo -e "[$GREEN BEGIN $ENDCOLOR] Installing your scripts on this computer"
+echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Installing your scripts on this computer"
 echo "================================================================"
 
 echo ""
-echo -e "[$GREEN INFO $ENDCOLOR] Installing personal scripts.."
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Installing personal scripts.."
 # Create a bin directory inside of dropbox, delete if one exists. This project contains all
 # the scripts I will use. Custom scripts should only be created inside this project then
-# installed by executing this bash file. By deleting the existing bin directory we will ensure
-# that we will keep things in sync.
-echo "[ INFO ] Creating bin directory.."
+# installed by executing this bash script. By deleting the existing bin directory we will
+# ensure that we will keep things in sync.
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating bin directory: $BLUE $customBin $ENDCOLOR"
 rm -rf $customBin
 mkdir -p $customBin
 
 # Copy over all the scripts from this project into the bin directory with execute permissions
 scripts=$dir/scripts/*
-echo "[ INFO ] Granting owner execute permissions to scripts.."
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Granting owner execute permissions to scripts.."
 for script in $scripts; do
-    echo -e "[ INFO ] chmod u+x $BLUE $script $ENDCOLOR"
+    echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] chmod u+x $BLUE $script $ENDCOLOR"
     chmod u+x $script
     cp -p $script $customBin
 done
-echo -e "[ INFO ] Copying scripts to $BLUE $customBin $ENDCOLOR"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $customBin $ENDCOLOR"
 
 
 echo ""
 echo ""
 
-echo -e "[$GREEN INFO $ENDCOLOR] Installing Hobsons specific scripts.."
-echo "[ INFO ] Creating ~/bin directory.."
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Installing Hobsons specific scripts.."
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating bin directory: $BLUE $hobsonsBin $ENDCOLOR"
 rm -rf $hobsonsBin
 mkdir -p $hobsonsBin
 
 # Copy over all the scripts from this project's "hobsons" directory into the $HOME/bin
 # directory with execute permissions
 hobsonsScripts=$dir/hobsons/*
-echo "[ INFO ] Granting owner execute permissions to scripts.."
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Granting owner execute permissions to scripts.."
 for script in $hobsonsScripts; do
-    echo -e "[ INFO ] chmod u+x $BLUE $script $ENDCOLOR"
+    echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] chmod u+x $BLUE $script $ENDCOLOR"
     chmod u+x $script
     cp -p $script $hobsonsBin
 done
-echo -e "[ INFO ] Copying scripts to $BLUE $hobsonsBin $ENDCOLOR"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $hobsonsBin $ENDCOLOR"
 
 echo ""
 
 # Source .bash_profile so these scripts are available immediately without starting a new shell session
-echo -e "[$GREEN INFO $ENDCOLOR] Running command: $BLUE . $HOME/.bash_profile$ENDCOLOR"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Running command: $BLUE . $HOME/.bash_profile$ENDCOLOR"
 . $HOME/.bash_profile
 echo ""
-echo -e "[$GREEN END $ENDCOLOR] Scripts are now available for use within this shell session"
+echo -e "[$GREEN ${BOLD}END$ENDCOLOR ${NORMAL}] Scripts are now available for use within this shell session"
