@@ -9,15 +9,7 @@ The project contains all my home director's dotfiles (i.e. .bash_profile, .bashr
 git clone https://gitlab.com/alexolivas-labs/dotfiles.git
 ```
 
-TODO: Make the dotfiles_setup proejct executable from within dropbox
-TODO: Update the project's working directory so they match in both computers
-TODO: Create a script that creates a development environment directory (only if the directory/files aren't created)
-TODO: Rename this project to something like bashfiles or bashscripts
-TODO: Move this project over to github, it can be public since it doesn't really expose anything private
-
 * Run setup
 ```bash
-dotfiles_setup
+./deploy_scripts
 ```
-
-SEE: https://github.com/nicksp/dotfiles and https://github.com/cowboy/dotfiles/
