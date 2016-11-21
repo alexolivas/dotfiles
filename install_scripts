@@ -1,6 +1,13 @@
 #!/bin/bash
 
-# Variables
+# This script will create a bin directory inside of dropbox. This bin will contain all my custom
+# scripts and settings, modifications should only be made in this dotfiles project then installed by
+# executing this bash script. Every time this bash script is executed it will delete the existing
+# $HOME/Dropbox/bin directory and replace its contents with this project's contents to ensure that
+# the scripts are kept in sync (with changes made directly to this project) across multiple
+# computers.
+
+# Color variables
 CYAN="\033[36m"
 BLUE="\033[34m"
 GREEN="\033[32m"
@@ -10,42 +17,42 @@ ENDCOLOR="\033[m"
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
-dir=$(pwd)
-customBin=$HOME/Dropbox/bin
-hobsonsBin=$HOME/bin
+# Check if dropbox is installed
+if [ ! -d "$HOME/Dropbox" ]; then
+    echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Dropbox installation not found, missing directory: $BLUE $HOME/Dropbox $ENDCOLOR"
+    echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Exiting.."
+    exit 1
+fi
 
-echo "================================================================"
-echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Installing your scripts on this computer"
-echo "================================================================"
+# Directory variables
+dir=$(pwd)
+dropboxBin=$HOME/Dropbox/bin
+
+echo "================================================================================"
+echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Installing your scripts and custom settings on this computer"
+echo "================================================================================"
 
 echo ""
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Installing personal scripts.."
-# Create a bin directory inside of dropbox, delete if one exists. This project contains all
-# the scripts I will use. Custom scripts should only be created inside this project then
-# installed by executing this bash script. By deleting the existing bin directory we will
-# ensure that we will keep things in sync across multiple computers.
-echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating bin directory: $BLUE $customBin $ENDCOLOR"
-rm -rf $customBin
-mkdir -p $customBin
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating bin directory: $BLUE $dropboxBin $ENDCOLOR"
+rm -rf $dropboxBin
+mkdir -p $dropboxBin
 
-# Copy over all the scripts from this project into the bin directory with execute permissions
+# Copy over all the scripts from this project into the dropbox bin directory with execute permissions
 scripts=$dir/scripts/*
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Granting owner execute permissions to scripts.."
 for script in $scripts; do
     echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] chmod u+x $BLUE $script $ENDCOLOR"
     chmod u+x $script
-    cp -p $script $customBin
+    cp -p $script $dropboxBin
 done
-echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $customBin $ENDCOLOR"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $dropboxBin $ENDCOLOR"
 
 
 echo ""
 echo ""
 
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Installing Hobsons specific scripts.."
-echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating bin directory: $BLUE $hobsonsBin $ENDCOLOR"
-rm -rf $hobsonsBin
-mkdir -p $hobsonsBin
 
 # Copy over all the scripts from this project's "hobsons" directory into the $HOME/bin
 # directory with execute permissions
@@ -54,11 +61,13 @@ echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Granting owner execute permissi
 for script in $hobsonsScripts; do
     echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] chmod u+x $BLUE $script $ENDCOLOR"
     chmod u+x $script
-    cp -p $script $hobsonsBin
+    cp -p $script $dropboxBin
 done
-echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $hobsonsBin $ENDCOLOR"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $dropboxBin $ENDCOLOR"
 
 echo ""
+
+# TODO: Check if .bash_profile exists, if it does, then run the command below, if not don't
 
 # Source .bash_profile so these scripts are available immediately without starting a new shell session
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Running command: $BLUE . $HOME/.bash_profile$ENDCOLOR"
