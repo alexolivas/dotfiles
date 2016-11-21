@@ -1,9 +1,7 @@
 #!/bin/bash
-############################
-# .make.sh
-# This script updates the current version's of dot files and SSH config
-############################
-
+####################################################################################
+# This script updates the current version's of my bash dotfiles and SSH config
+####################################################################################
 
 # Global Variables
 CYAN="\033[36m"
@@ -15,26 +13,32 @@ ENDCOLOR="\033[m"
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
-dir=$HOME/Dropbox/dotfiles # Project directory: The project will be checked out in dropbox
+# Check the dotfiles project installation is correct
+if [ ! -d "$HOME/Dropbox/dotfiles" ]; then
+    echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] The dotfiles project is not installed in the expected directory: $BLUE $HOME/Dropbox/dotfiles $ENDCOLOR"
+    echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Exiting.."
+    exit 1
+fi
+
+# The script expects the dotfiles project to be installed in the following directory,
+# the check above this verifies that it exists before continuing
+dir=$HOME/Dropbox/dotfiles
 
 echo "====================================================="
-echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Updating computer's dotfiles"
+echo -e "[$GREEN ${BOLD}BEGIN$ENDCOLOR ${NORMAL}] Updating this computer's dotfiles"
 echo "====================================================="
 
 # Install all bash shell dotfiles
 bashfiles=".bashrc .bash_profile"
-
 for file in $bashfiles; do
-    echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Updating bash dotfile: [$BLUE $file $ENDCOLOR]"
+    echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Updating and sourcing bash dotfile: [$BLUE $file $ENDCOLOR]"
     rm -rf $HOME/$file
     cp $dir/shell/$file $HOME/$file
     . $HOME/$file
 done
 
 # Next we will copy this project's version of the ssh config to the ~/.ssh directory
-echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Updating SSH config:   [$BLUE config $ENDCOLOR]"
+echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Updating SSH config:                [$BLUE config $ENDCOLOR]"
 sshdir=~/.ssh
 rm -rf $sshdir/config
 cp $dir/ssh/config $sshdir/config
-
-echo -e "[$GREEN ${BOLD}END$ENDCOLOR ${NORMAL}] Update Complete"
