@@ -23,7 +23,7 @@ echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Installing personal scripts.."
 # Create a bin directory inside of dropbox, delete if one exists. This project contains all
 # the scripts I will use. Custom scripts should only be created inside this project then
 # installed by executing this bash script. By deleting the existing bin directory we will
-# ensure that we will keep things in sync.
+# ensure that we will keep things in sync across multiple computers.
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating bin directory: $BLUE $customBin $ENDCOLOR"
 rm -rf $customBin
 mkdir -p $customBin
