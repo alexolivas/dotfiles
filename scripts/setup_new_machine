@@ -8,6 +8,7 @@ CYAN="\033[36m"
 BLUE="\033[34m"
 GREEN="\033[32m"
 RED="\033[31m"
+YELLOW="\033[33m"
 ENDCOLOR="\033[m"
 
 BOLD=$(tput bold)
@@ -96,53 +97,91 @@ function installPipPackages() {
     echo ""
 }
 
-function createDevelopmentEnvironmentDirectory() {
+function createDevelopmentEnvironmentDirectoryStructure() {
     echo ""
     echo "================================================================="
-    echo -e "$GREEN ${BOLD}STEP 5: Create Development Environment Directory $ENDCOLOR ${NORMAL}"
+    echo -e "$GREEN ${BOLD}STEP 5: Create Development Environment Structure $ENDCOLOR ${NORMAL}"
     echo "================================================================="
     echo ""
 
     # Root development project's directory
-    devHome=$HOME/Development/
-    echo -e "Creating development home directory: $GREEN ${BOLD} $devHome $ENDCOLOR ${NORMAL}"
-    mkdir -p $devHome
-
-    ##########################################
-    # Hobsons directories
-    ##########################################
-    hobsonsHome=$devHome/Hobsons
-    echo -e "[$BLUE${BOLD} INFO $ENDCOLOR${NORMAL}] Creating directory for Hobsons' projects.."
-
-    # TODO: FIX THIS!!!! It's failing here with permission denied:  mkdir: /Lab: Permission denied
-    hobsonsLab=$hobsonHome/Lab
-    echo -e "[$GREEN${BOLD} CREATED $ENDCOLOR${NORMAL}] $hobsonsLab"
-    mkdir -p $hobsonsLab
-#    echo -e "Creating Hobsons projects directory: $BLUE ${BOLD} $hobsonsHome $ENDCOLOR ${NORMAL}"
-
-#    starfishHome=$hobsonsHome/starfish
-#    starfishMobile=$starfishHome/mobile
-#    starfishCore=$starfishHome/core
-#    starfishInternal=$starfishHome/internal
-#
-#    mkdir -p $starfishHome
-#    mkdir -p $starfishMobile
-#    mkdir -p $starfishCore
-#    mkdir -p $starfishInternal
-
-    ##########################################
-    # Personal project's directory
-    ##########################################
-    personalHome=$devHome/Personal
-    echo -e "[$BLUE${BOLD} INFO $ENDCOLOR${NORMAL}] Creating directory for personal projects.."
+    devHome=$HOME/Development
 
     ##########################################
     # 8Bit Ghost's project's directory
     ##########################################
-    freelanceHome=$devHome/8bitghost
-    echo -e "[$BLUE${BOLD} INFO $ENDCOLOR${NORMAL}] Creating directory for 8Bit Ghost projects.."
+    # This directory contains 8bitghost client projects
+    freelanceHome=$devHome/clients
+    projectDirectoryHelper $freelanceHome "8bitGhost's client project's home"
+    echo ""
 
+    ##########################################
+    # Personal project's directory
+    ##########################################
+    personalHome=$devHome/personal
+    projectDirectoryHelper $personalHome "personal project's home"
+    projectSubdirectoryHelper $personalHome "lab projects"
+    projectSubdirectoryHelper $personalHome/lab "academic games github other web"
+    projectSubdirectoryHelper $personalHome/projects "career 8bitghost"
+    echo ""
 
+    ##########################################
+    # Hobsons directories
+    ##########################################
+    hobsonsHome=$devHome/hobsons
+    projectDirectoryHelper $hobsonsHome "hobsons' project's home"
+    projectSubdirectoryHelper $hobsonsHome "lab starfish"
+    projectSubdirectoryHelper $hobsonsHome/starfish "core internal mobile"
+    projectSubdirectoryHelper $hobsonsHome/starfish/core "DEV OPS RC"
+    echo ""
+}
+
+function projectDirectoryHelper() {
+    if [ ! "$1" ]; then
+        echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Unable to create directory structure (invalid function usage): missing parent directory"
+        exit 1;
+    fi
+
+    if [ ! "$2" ]; then
+        echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Unable to create directory structure (invalid function usage): missing directory short name description"
+        exit 1;
+    fi
+
+    dir=$1
+    shortNameDesc=$2
+
+    if [ ! -d "$dir" ]; then
+        mkdir -p $dir
+        echo -e "[$GREEN ${BOLD}INFO${NORMAL} $ENDCOLOR] ${BOLD}Creating $shortNameDesc directory: $BLUE $dir $ENDCOLOR ${NORMAL}"
+    else
+        echo -e "[$YELLOW ${BOLD}IGNORE${NORMAL} $ENDCOLOR] ${BOLD}$shortNameDesc directory already exists: $BLUE $dir $ENDCOLOR ${NORMAL}"
+    fi
+}
+
+function projectSubdirectoryHelper() {
+    # Verify all the required parameters are passed in
+    if [ ! "$1" ]; then
+        echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Unable to create directory structure (invalid function usage): missing parent directory"
+         exit 1;
+    fi
+
+    if [ ! "$2" ]; then
+        echo -e "[$RED ${BOLD}ERROR$ENDCOLOR ${NORMAL}] Unable to create directory structure (invalid function usage): missing child directories list"
+         exit 1;
+    fi
+
+    parentDirectory=$1
+    childDirList=$2
+
+    for currDir in $childDirList; do
+        currPath=$parentDirectory/$currDir
+        if [ ! -d "$currPath" ]; then
+            mkdir -p $currPath
+            echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Creating directory: $BLUE $currPath $ENDCOLOR"
+        else
+            echo -e "[$YELLOW ${BOLD}IGNORE$ENDCOLOR ${NORMAL}] Directory already exists: $BLUE $currPath $ENDCOLOR"
+        fi
+    done
 }
 
 function createDotfiles() {
@@ -155,14 +194,24 @@ function createDotfiles() {
     echo ""
 }
 
+function setOSXDefaults() {
+    echo ""
+    echo "================================================================="
+    echo -e "$GREEN ${BOLD}STEP 7: Overwrite OS X default settings $ENDCOLOR ${NORMAL}"
+    echo "================================================================="
+    echo ""
+    set_osx_defaults
+    echo ""
+}
+
 # =======================================================================
 # Script begins here, using the helper functions above
 # =======================================================================
 installHomebrew
 installPipPackages
-createDevelopmentEnvironmentDirectory
+createDevelopmentEnvironmentDirectoryStructure
 createDotfiles
-echo ""
+setOSXDefaults
 echo ""
 echo "================================================================="
 
