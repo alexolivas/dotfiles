@@ -51,10 +51,7 @@ for script in $scripts; do
 done
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Copying scripts to $BLUE $dropboxBin $ENDCOLOR"
 
-
 echo ""
-echo ""
-
 echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] ${BOLD}Installing Hobsons specific scripts..${NORMAL}"
 
 # Copy over all the scripts from this project's "hobsons" directory into the $HOME/bin
@@ -73,13 +70,12 @@ echo ""
 # Check if .bash_profile exists, if it does not, warn the user to install .bash_profile and .bashrc
 # by running the ./update_dotfiles script, otherwise, source the .bash_profile so these scripts
 # are available within this and any future bash sessions.
-if [ ! -d "$HOME/.bash_profiles" ]; then
+if [ ! -f "$HOME/.bash_profile" ]; then
     echo -e "[$YELLOW ${BOLD}WARNING$ENDCOLOR ${NORMAL}] $YELLOW.bash_profile not found, to fix run the script:$ENDCOLOR $BLUE ./update_dotfiles $ENDCOLOR from$BLUE $dir/scripts/$ENDCOLOR"
 else
     # Source .bash_profile so these scripts are available immediately without starting a new shell session
+    echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] ${BOLD}Sourcing .bash_profile to make scripts available within this shell session${NORMAL}"
     echo -e "[$GREEN ${BOLD}INFO$ENDCOLOR ${NORMAL}] Running command: $BLUE . $HOME/.bash_profile$ENDCOLOR"
     . $HOME/.bash_profile
-    echo ""
-    echo -e "[$GREEN ${BOLD}END$ENDCOLOR ${NORMAL}] Scripts are now available for use within this shell session"
 fi
 
