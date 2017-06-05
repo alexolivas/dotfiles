@@ -34,10 +34,10 @@ Host governor.ore.starfishsolutions.com
 #     PreferredAuthentications publickey
 #     IdentityFile ~/.ssh/bitbucket_rsa
 
-# Host heroku.com
-#     HostName heroku.com
-#     PreferredAuthentications publickey
-#     IdentityFile ~/.ssh/heroku_rsa
+Host heroku.com
+    HostName heroku.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/heroku_rsa
 
 # ==============================================================================================
 # ============================== Web Faction CONFIGS ===========================================
