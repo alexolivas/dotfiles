@@ -43,11 +43,12 @@ alias grep='grep --color=auto'
 alias flushdns='sudo killall -HUP mDNSResponder'
 
 ###################################
-# Hobsons specific aliases
+# Hobsons specific configs
 ###################################
 
 # ORE Governor
 alias ore_governor='renametab governor.ore && ssh -v governor.ore.starfishsolutions.com'
 
-# IRL Governor
-# alias irl_governor='renametab governor.irl && ssh -v governor.irl.starfishsolutions.com'
+alias sf="docker exec starfish-tools"
+alias sfmvn="docker exec starfish-tools mvn"
+alias sftools="docker exec -it starfish-tools"
