@@ -3,6 +3,6 @@ ssh.symlink/*
 !ssh.symlink/config
 
 # Ignore local gitconfig
-git/gitconfig.local.symlink
+git/gitconfig.symlink
 
 .idea
