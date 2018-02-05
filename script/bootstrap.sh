@@ -33,6 +33,7 @@ setup_gitconfig () {
     then
         info 'setup gitconfig'
 
+        # TODO: Don't do this if a gitconfig.local.symlink is present unless you pass a flag to override
         git_credential='cache'
         if [ "$(uname -s)" == "Darwin" ]
         then
@@ -50,17 +51,18 @@ setup_gitconfig () {
     fi
 }
 
-setup_sshconfig () {
-    if ! [ -f ssh.symlink/config.local ]
-    then
-        info 'setup ssh config.local'
-
-        user ' - What is your IPA username?'
-        read -e ipa_username
-
-        sed -e "s/IPAUSERNAME/$ipa_username/g" ssh.symlink/config.example > ssh.symlink/config.local
-    fi
-}
+# TODO: Add worflow to add a new connection (heroku/github/bitbucket/etc) to config.local
+#setup_sshconfig () {
+#    if ! [ -f ssh.symlink/config.local ]
+#    then
+#        info 'setup ssh config.local'
+#
+#        user ' - What is your IPA username?'
+#        read -e ipa_username
+#
+#        sed -e "s/IPAUSERNAME/$ipa_username/g" ssh.symlink/config.example > ssh.symlink/config.local
+#    fi
+#}
 
 link_file () {
     local src=$1 dst=$2
@@ -152,7 +154,7 @@ install_dotfiles () {
 if [ "${1}" != "--source-only" ]; then
     setup_gitconfig
     install_dotfiles
-    setup_sshconfig
+    #setup_sshconfig
 
     # If we're on a Mac, let's install and setup homebrew.
     if [ "$(uname -s)" == "Darwin" ]
