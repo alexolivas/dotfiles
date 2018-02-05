@@ -1,0 +1,30 @@
+DOTFILES="$(dirname "$PWD")"
+for fname in $(find $DOTFILES -name env.sh); do
+    . $fname
+done
+
+# Add bin directory to path
+export PATH="$DOTFILES/bin:$PATH"
+
+# Stash your environment variables in ~/.localrc to keep them out of the public
+# dotfiles repository.
+if [[ -a ~/.localrc ]]
+then
+    source ~/.localrc
+fi
+
+
+####################################################
+# Helper functions
+####################################################
+
+# Command to help ssh into docker containers
+function interaction() {
+    container_id=`sudo docker ps|grep $1|awk '{print $1}'`
+    sudo docker exec -it $container_id /bin/bash
+}
+
+# Command to rename terminal tab
+function renametab () {
+    echo -ne "\033]0;"$@"\007"
+}
