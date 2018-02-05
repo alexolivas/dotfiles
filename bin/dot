@@ -38,7 +38,7 @@ while test $# -gt 0; do
     shift
 done
 
-export ZSH="$(dirname "$PWD")"
+export ZSH=$PWD
 
 # Set macOS defaults
 $ZSH/osx/set-defaults.sh
