@@ -41,7 +41,7 @@ done
 export ZSH="$(dirname "$PWD")"
 
 # Set macOS defaults
-$ZSH/macos/set-defaults.sh
+$ZSH/osx/set-defaults.sh
 
 # Install homebrew
 $ZSH/homebrew/install.sh 2>&1
