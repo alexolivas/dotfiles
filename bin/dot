@@ -10,21 +10,42 @@ set -e
 parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
 dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
 
+echo $dotfilesDirectory
+
 displayUsageAndExit() {
     echo "dot -- dotfiles management"
     echo ""
     echo "Usage: dot [options]"
     echo ""
     echo "Options:"
-    echo "  -e, --edit    Open dotfiles directory for editing"
-    echo "  -h, --help    Show this help message and exit"
+    echo "  -h, --help         Show this help message and exit"
+    echo "  -b, --bootstrap    Bootstrap your dotfiles projects. This is usually only required on a new computer."
+    echo "  -e, --edit         Open dotfiles directory for editing"
     exit
 }
+
+# TODO make info, success et al functions universal to avoid code duplication
+info () {
+    printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
+}
+
+success () {
+    printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+export ZSH=$dotfilesDirectory
 
 while test $# -gt 0; do
     case "$1" in
         "-h"|"--help")
             displayUsageAndExit
+            ;;
+        "-b"|"--bootstrap")
+            info '======================================='
+            info 'Running dotfiles bootstrap'
+            info '======================================='
+            info ' '
+            $ZSH/script/bootstrap.sh
             ;;
         "-e"|"--edit")
             exec "$EDITOR" "$dotfilesDirectory"
@@ -38,18 +59,37 @@ while test $# -gt 0; do
     shift
 done
 
-export ZSH=$PWD
-
+info '======================================='
+info 'setting OSX defaults'
+info '======================================='
 # Set macOS defaults
+success 'set-defaults.sh'
 $ZSH/osx/set-defaults.sh
+info ' '
 
+info '======================================='
+info 'Homebrew installation'
+info '======================================='
 # Install homebrew
+success 'installing..'
 $ZSH/homebrew/install.sh 2>&1
+info ' '
 
+info '======================================='
+info 'Upgrading homebrew'
+info '======================================='
 # Upgrade homebrew
-echo "› brew update"
+success "brew update"
 brew update
+info ' '
 
+info '======================================='
+info 'Running your dotfile installers'
+info '======================================='
 # Install software
-echo "› $ZSH/script/install"
+#echo "› $ZSH/script/install"
 $ZSH/script/install
+info ' '
+
+echo ''
+echo '  System updated!'

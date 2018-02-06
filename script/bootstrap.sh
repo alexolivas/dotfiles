@@ -8,8 +8,6 @@ DOTFILES_ROOT=$(pwd -P)
 
 set -e
 
-echo ''
-
 info () {
     printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
 }
@@ -24,7 +22,6 @@ success () {
 
 skip () {
     printf "\r\033[2K  [ \033[0;32mOK\033[0m ] $1:\033[0;33m skipped\033[0m\n"
-    echo ''
 }
 
 fail () {
@@ -34,9 +31,7 @@ fail () {
 }
 
 setup_gitconfig () {
-    info '======================================='
     info 'setup gitconfig'
-    info '======================================='
 
     if ! [ -f git/gitconfig.local.symlink ]
     then
@@ -57,8 +52,9 @@ setup_gitconfig () {
 
         success 'gitconfig'
     else
-        skip 'setup gitconfig'
+        skip 'gitconfig'
     fi
+    info ' '
 }
 
 # TODO: Add worflow to add a new connection (heroku/github/bitbucket/etc) to config.local
@@ -150,9 +146,7 @@ link_file () {
 }
 
 install_dotfiles () {
-    info '======================================='
-    info 'installing dotfiles'
-    info '======================================='
+    info 'creating dotfile symlinks'
 
     local overwrite_all=false backup_all=false skip_all=false
 
@@ -161,6 +155,7 @@ install_dotfiles () {
         dst="$HOME/.$(basename "${src%.*}")"
         link_file "$src" "$dst"
     done
+    info ' '
 }
 
 if [ "${1}" != "--source-only" ]; then
@@ -168,22 +163,22 @@ if [ "${1}" != "--source-only" ]; then
     install_dotfiles
     #setup_sshconfig
 
-    # If we're on a Mac, let's install and setup homebrew.
-    if [ "$(uname -s)" == "Darwin" ]
-    then
-        # install_certs_in_keychain
-        echo ''
-        info '======================================='
-        info "installing dependencies"
-        info '======================================='
-        if source bin/dot | while read -r data; do info "$data"; done
-        then
-            success "dependencies installed"
-        else
-            fail "error installing dependencies"
-        fi
-    fi
+#    # If we're on a Mac, let's install and setup homebrew.
+#    if [ "$(uname -s)" == "Darwin" ]
+#    then
+#        # install_certs_in_keychain
+#        echo ''
+#        info '======================================='
+#        info "installing dependencies"
+#        info '======================================='
+#        if source bin/dot | while read -r data; do info "$data"; done
+#        then
+#            success "dependencies installed"
+#        else
+#            fail "error installing dependencies"
+#        fi
+#    fi
 
-    echo ''
-    echo '  System updated!'
+#    echo ''
+#    echo '  System updated!'
 fi
