@@ -64,6 +64,7 @@ info 'setting OSX defaults'
 info '======================================='
 # Set macOS defaults
 success 'set-defaults.sh'
+mkdir -p ~/Documents/Screenshots # Create screen shot directory
 $ZSH/osx/set-defaults.sh
 info ' '
 
@@ -87,7 +88,6 @@ info '======================================='
 info 'Running your dotfile installers'
 info '======================================='
 # Install software
-#echo "› $ZSH/script/install"
 $ZSH/script/install
 info ' '
 
