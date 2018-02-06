@@ -1,0 +1,47 @@
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+" defaults:
+set ignorecase
+set smartcase
+"set h1search
+
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set mouse=a
+set autoindent
+
+set number
+set splitright
+set splitbelow
+
+set modeline
+set ls=2
+
+setlocal spell spelllang=en_us
+
+hi Comment ctermfg=LightBlue
+hi String ctermfg=LightRed
+hi Directory ctermfg=LightBlue
+
+" Spelling
+hi clear SpellBad
+hi SpellBad term=standout ctermfg=1 term=underline cterm=underline
+hi clear SpellCap
+hi SpellCap term=underline cterm=underline
+
+" File type plugin
+filetype on
+
+" Toggle Nerd Tree
+map <leader>t :NERDTreeToggle<CR>
+
+" Start NERDTree Automatically
+" autocmd vimenter * NERDTRee
+
+" Start NERDTree automatically even if no files were specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif

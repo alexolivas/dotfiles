@@ -1,0 +1,31 @@
+DOTFILES=$HOME/workspace/personal/projects/tools/dotfiles
+
+# Source all env.sh files in the dotfiles project
+# env.sh files contain bash commands specific to a feature
+# (e.g. bash-git-prompt, python etc) 
+for fname in $(find $DOTFILES -name env.sh); do
+    . $fname
+done
+
+# Add bin directory to path
+export PATH="$DOTFILES/bin:$PATH"
+
+export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
+alias ls='ls -GFh'
+
+####################################################
+# Helper functions
+####################################################
+
+# Command to help ssh into docker containers
+function interact() {
+    container_id=`sudo docker ps|grep $1|awk '{print $1}'`
+    sudo docker exec -it $container_id /bin/bash
+}
+
+# Command to rename terminal tab
+function renametab () {
+    echo -ne "\033]0;"$@"\007"
+}
