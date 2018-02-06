@@ -36,11 +36,11 @@ hi SpellCap term=underline cterm=underline
 " File type plugin
 filetype on
 
-" Toggle NERD Tree
+" Toggle Nerd Tree
 map <leader>t :NERDTreeToggle<CR>
 
-" Start NERDTree automatically
-autocmd vimenter * NERDTree
+" Start NERDTree Automatically
+" autocmd vimenter * NERDTRee
 
 " Start NERDTree automatically even if no files were specified
 autocmd StdinReadPre * let s:std_in=1
