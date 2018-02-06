@@ -11,7 +11,7 @@ set -e
 echo ''
 
 info () {
-    printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+    printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
 }
 
 user () {
@@ -22,16 +22,24 @@ success () {
     printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
 }
 
+skip () {
+    printf "\r\033[2K  [ \033[0;32mOK\033[0m ] $1:\033[0;33m skipped\033[0m\n"
+    echo ''
+}
+
 fail () {
-    printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+    printf "\r\033[2K  [ \033[0;31mFAIL\033[0m ] $1\n"
     echo ''
     exit
 }
 
 setup_gitconfig () {
+    info '======================================='
+    info 'setup gitconfig'
+    info '======================================='
+
     if ! [ -f git/gitconfig.local.symlink ]
     then
-        info 'setup gitconfig'
 
         # TODO: Don't do this if a gitconfig.local.symlink is present unless you pass a flag to override
         git_credential='cache'
@@ -48,6 +56,8 @@ setup_gitconfig () {
         sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
 
         success 'gitconfig'
+    else
+        skip 'setup gitconfig'
     fi
 }
 
@@ -85,7 +95,7 @@ link_file () {
 
             else
 
-                user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+                user "\033[0;31mFile already exists\033[0m: \033[0;34m$dst ($(basename "$src"))\033[0m, what do you want to do?\n\
                 [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
                 read -n 1 action
 
@@ -140,7 +150,9 @@ link_file () {
 }
 
 install_dotfiles () {
+    info '======================================='
     info 'installing dotfiles'
+    info '======================================='
 
     local overwrite_all=false backup_all=false skip_all=false
 
@@ -159,8 +171,11 @@ if [ "${1}" != "--source-only" ]; then
     # If we're on a Mac, let's install and setup homebrew.
     if [ "$(uname -s)" == "Darwin" ]
     then
-        install_certs_in_keychain
+        # install_certs_in_keychain
+        echo ''
+        info '======================================='
         info "installing dependencies"
+        info '======================================='
         if source bin/dot | while read -r data; do info "$data"; done
         then
             success "dependencies installed"
@@ -170,5 +185,5 @@ if [ "${1}" != "--source-only" ]; then
     fi
 
     echo ''
-    echo '  All installed!'
+    echo '  System updated!'
 fi
