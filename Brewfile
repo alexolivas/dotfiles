@@ -27,5 +27,6 @@ brew 'scala'
 brew 'pyenv'
 brew 'pyenv-virtualenv'
 
+# TODO: This is failing if docker is already installed, figure out how to resume installation if that happens
 # Casks
-cask 'docker'
+# cask 'docker'
