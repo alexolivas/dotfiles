@@ -29,23 +29,27 @@ success "Created colors directory"
 
 # Add pathogen
 cd $AUTOLOAD_DIR
-success "Downloading pathogen.vim.."
-curl -LSso pathogen.vim https://tpo.pe/pathogen.vim
-
-sleep 10
+if [ ! "pathogen.vim" ]; then
+    success "Downloading pathogen.."
+    curl -LSso pathogen.vim https://tpo.pe/pathogen.vim
+    sleep 10
+    success "Pathogen installed!"
+else
+    success "Pathogen already installed!"
+fi
 
 # Add your custom bundles
 cd $DOTFILES/$BUNDLES_DIR
 
 # NerdTree
 if [ ! -d "nerdtree" ]; then
-    success "Downloading NerdTree.."
+    success "Downloading NERDTree.."
     git clone https://github.com/scrooloose/nerdtree.git # NerdTree
+    sleep 10
+    success "NERDTree installed!"
 else
     success "NerdTree already installed!"
 fi
-
-sleep 10
 
 
 success "Vim installation complete!"
