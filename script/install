@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Run all dotfiles installers.
+
+set -e
+
+cd "$(dirname $0)"/..
+
+info () {
+    printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
+}
+
+success () {
+    printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+}
+
+# Run Homebrew through the Brewfile
+success "running brew bundle.."
+brew bundle
+
+# TODO: modify this to display the installer currently running on the terminal window
+# find the installers and run them iteratively
+find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
