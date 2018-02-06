@@ -1,6 +1,7 @@
 # Ignore everything in ssh.symlink except for the config file
 ssh.symlink/*
 !ssh.symlink/config
+!ssh.symlink/config.local.example
 
 # Ignore local gitconfig
 git/gitconfig.local.symlink
