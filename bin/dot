@@ -66,6 +66,7 @@ info '======================================='
 success 'set-defaults.sh'
 mkdir -p ~/Documents/Screenshots # Create screen shot directory
 $ZSH/osx/set-defaults.sh
+killall SystemUIServer
 info ' '
 
 info '======================================='
