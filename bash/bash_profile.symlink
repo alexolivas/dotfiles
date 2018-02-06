@@ -1,21 +1,14 @@
 DOTFILES=$HOME/workspace/personal/projects/tools/dotfiles
-echo $DOTFILES
-echo "......"
+
+# Source all env.sh files in the dotfiles project
+# env.sh files contain bash commands specific to a feature
+# (e.g. bash-git-prompt, python etc) 
 for fname in $(find $DOTFILES -name env.sh); do
-    echo $fname
     . $fname
 done
 
 # Add bin directory to path
 export PATH="$DOTFILES/bin:$PATH"
-
-# Stash your environment variables in ~/.localrc to keep them out of the public
-# dotfiles repository.
-if [[ -a ~/.localrc ]]
-then
-    source ~/.localrc
-fi
-
 
 ####################################################
 # Helper functions
