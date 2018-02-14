@@ -10,9 +10,10 @@ done
 # Add bin directory to path
 export PATH="$DOTFILES/bin:$PATH"
 
-export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+# Customize terminal appearance
+#export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 export CLICOLOR=1
-export LSCOLORS=ExFxBxDxCxegedabagacad
+export LSCOLORS=ExFxCxFxCxegedabagaced
 alias ls='ls -GFh'
 
 ####################################################
@@ -20,7 +21,7 @@ alias ls='ls -GFh'
 ####################################################
 
 # Command to help ssh into docker containers
-function interact() {
+function ssh_docker_container() {
     container_id=`sudo docker ps|grep $1|awk '{print $1}'`
     sudo docker exec -it $container_id /bin/bash
 }
