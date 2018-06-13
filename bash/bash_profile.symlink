@@ -1,4 +1,4 @@
-DOTFILES=$HOME/workspace/personal/projects/tools/dotfiles
+DOTFILES=$HOME/.dotfiles
 
 # Source all env.sh files in the dotfiles project
 # env.sh files contain bash commands specific to a feature
