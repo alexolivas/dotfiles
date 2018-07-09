@@ -69,6 +69,7 @@ $ZSH/osx/set-defaults.sh
 killall SystemUIServer
 info ' '
 
+# TODO: Don't run this if homebrew is already installed (or does this run updates?)
 info '======================================='
 info 'Homebrew installation'
 info '======================================='
