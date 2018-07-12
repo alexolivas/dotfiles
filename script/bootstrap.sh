@@ -181,4 +181,7 @@ if [ "${1}" != "--source-only" ]; then
 
 #    echo ''
 #    echo '  System updated!'
+  echo 'Sourcing bash_profile'
+  . ~/.bash_profile
+
 fi
