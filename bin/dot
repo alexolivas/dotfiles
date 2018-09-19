@@ -1,97 +1,73 @@
 #!/usr/bin/env bash
+
 #
 # dot
 #
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
+success () {
+  printf "\r\033[2K[ \033[00;32mOK\033[0m ] \033[0;32m$1\033[0m\n"
+}
 
 set -e
 
 parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
 dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
 
-echo $dotfilesDirectory
-
 displayUsageAndExit() {
-    echo "dot -- dotfiles management"
-    echo ""
-    echo "Usage: dot [options]"
-    echo ""
-    echo "Options:"
-    echo "  -h, --help         Show this help message and exit"
-    echo "  -b, --bootstrap    Bootstrap your dotfiles projects. This is usually only required on a new computer."
-    echo "  -e, --edit         Open dotfiles directory for editing"
-    exit
+	echo "dot -- dotfiles management"
+	echo ""
+	echo "Usage: dot [options]"
+	echo ""
+	echo "Options:"
+	echo "  -e, --edit    Open dotfiles directory for editing"
+	echo "  -h, --help    Show this help message and exit"
+	exit
 }
-
-# TODO make info, success et al functions universal to avoid code duplication
-info () {
-    printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
-}
-
-success () {
-    printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
-}
-
-export ZSH=$dotfilesDirectory
 
 while test $# -gt 0; do
-    case "$1" in
-        "-h"|"--help")
-            displayUsageAndExit
-            ;;
-        "-b"|"--bootstrap")
-            info '======================================='
-            info 'Running dotfiles bootstrap'
-            info '======================================='
-            info ' '
-            $ZSH/script/bootstrap.sh
-            ;;
-        "-e"|"--edit")
-            exec "$EDITOR" "$dotfilesDirectory"
-            exit
-            ;;
-        *)
-            echo "Invalid option: $1"
-            displayUsageAndExit
-            ;;
-    esac
-    shift
+	case "$1" in
+		"-h"|"--help")
+			displayUsageAndExit
+			;;
+		"-e"|"--edit")
+			exec "$EDITOR" "$dotfilesDirectory"
+			exit
+			;;
+		*)
+			echo "Invalid option: $1"
+			displayUsageAndExit
+			;;
+	esac
+	shift
 done
 
-info '======================================='
-info 'setting OSX defaults'
-info '======================================='
+export ZSH=$HOME/.bv-dotfiles
+
+. $ZSH/script/bootstrap.sh --source-only
+
+printf "\r\033[0;34m#######################################################################\033[0m\n"
+printf "\r\033[0;34m#                  Running dot files update script..                  #\033[0m\n"
+printf "\r\033[0;34m#######################################################################\033[0m\n"
+echo ''
+
 # Set macOS defaults
-success 'set-defaults.sh'
-mkdir -p ~/Documents/Screenshots # Create screen shot directory
-$ZSH/osx/set-defaults.sh
-killall SystemUIServer
-info ' '
+$ZSH/macos/set-defaults.sh
 
-# TODO: Don't run this if homebrew is already installed (or does this run updates?)
-info '======================================='
-info 'Homebrew installation'
-info '======================================='
 # Install homebrew
-success 'installing..'
 $ZSH/homebrew/install.sh 2>&1
-info ' '
 
-info '======================================='
-info 'Upgrading homebrew'
-info '======================================='
 # Upgrade homebrew
-success "brew update"
+success "Update Homebrew"
 brew update
-info ' '
+echo ''
 
-info '======================================='
-info 'Running your dotfile installers'
-info '======================================='
 # Install software
 $ZSH/script/install
-info ' '
 
+# TODO: Add the ability to re-bootstrap things by calling ./bootstrap.sh instead of ./install.sh
+# Source your bash_profile to apply any updates made to env.sh files
+
+success "Execution of env.sh scripts complete."
 echo ''
-echo '  System updated!'
+source $HOME/.bash_profile
