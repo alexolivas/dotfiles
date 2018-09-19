@@ -1,0 +1,277 @@
+#!/bin/sh
+
+displayUsageAndExit() {
+	echo "devtmux -- pre-configured tmux layouts"
+	echo ""
+	echo "Usage: devtmux [options]"
+	echo ""
+	echo "Without any parameters a tmux session named develop, containing a horizontal split with 2 panes vertically split below"
+	echo "Options:"
+	echo "  -m    Show this help message and exit"
+    echo " "
+    echo "  -n    The name you want to give your tmux session, defaults to 'develop'"
+    echo " "
+	echo "  -v    Creates a pre-configured tiled vertical layout"
+	echo "  -h    Creates a pre-configured tiled horizontal layout"
+    echo " "
+	echo "  -l    Creates enough panes for larger screens (20'-26')"
+	echo "  -w    Creates enough panes for wide screen monitors (30'+)"
+	echo " "
+	echo "  -p    Creates a preset tmux configuration; the preset options are:"
+	echo "          - home "
+	echo "          - work "
+	echo "          - laptop "
+	echo " "
+	echo " Default screen without any options (translates to setting with options -h and -s)"
+    echo " _____________ "
+    echo " |           | "
+    echo " |           | "
+    echo " |-----------| "
+    echo " |     |     | "
+    echo " |     |     | "
+    echo " ------------- "
+    echo " "
+    echo " With options -v (-s can be omitted however it is implied) "
+    echo " _____________ "
+    echo " |     |     | "
+    echo " |     |     | "
+    echo " |     |-----| "
+    echo " |     |     | "
+    echo " |     |     | "
+    echo " ------------- "
+    echo " "
+    echo " With options -l and -h "
+    echo " __________________ "
+    echo " |        |       | "
+    echo " |        |       | "
+    echo " |----------------| "
+    echo " |     |     |    | "
+    echo " |     |     |    | "
+    echo " ------------------ "
+    echo " "
+    echo " With options -l and -v "
+    echo " __________________ "
+    echo " |     |     |    | "
+    echo " |     |     |    | "
+    echo " |     |-----|----| "
+    echo " |     |     |    | "
+    echo " |     |     |    | "
+    echo " ------------------ "
+    echo " "
+    echo " With options -w and -h "
+    echo " _________________________ "
+    echo " |       |       |       | "
+    echo " |       |       |       | "
+    echo " |       |---------------| "
+    echo " |       |     |    |    | "
+    echo " |       |     |    |    | "
+    echo " ------------------------- "
+    echo " "
+    echo " With options -w and -v "
+    echo " _________________________ "
+    echo " |       |       |       | "
+    echo " |       |       |-------| "
+    echo " |       |-------|       | "
+    echo " |       |       |-------| "
+    echo " |       |       |       | "
+    echo " ------------------------- "
+	echo " "
+	exit
+}
+
+SESSION_NAME='develop'
+VERTICAL=false
+HORIZONTAL=true
+LARGE=false
+WIDE=false
+SMALL=true
+
+while getopts 'mn:vhlwp:' flag; do
+    case "${flag}" in
+        m)
+            displayUsageAndExit ;;
+        n)
+            SESSION_NAME="${OPTARG}" ;;
+        v)
+            VERTICAL=true HORIZONTAL=false ;;
+        h)
+            VERTICAL=false HORIZONTAL=true ;;
+        l)
+            LARGE=true WIDE=false SMALL=false ;;
+        w)
+            LARGE=false WIDE=true SMALL=false ;;
+        p)
+            PRESET="${OPTARG}"
+            echo $PRESET
+            if [ -z $PRESET ]; then
+                echo "Invalid preset option; accepts 'home', 'work', or 'laptop'"
+                displayUsageAndExit
+            else
+
+                if [ $PRESET == home ]; then
+                    # Setting up my preset setting for my wide screen monitor at home
+                    # _________________________
+                    # |       |       |       |
+                    # |       |       |-------|
+                    # |       |-------|       |
+                    # |       |       |-------|
+                    # |       |       |       |
+                    # -------------------------
+                    echo "setting home preset"
+                    SESSION_NAME='home-dev'
+                    WIDE=true
+                    LARGE=false
+                    SMALL=false
+
+                    VERTICAL=true
+                    HORIZONTAL=false
+                elif [ $PRESET == work ]; then
+                    # Setting up my preset setting for my large monitor at work
+                    # ________________
+                    # |       |      |
+                    # |       |      |
+                    # ----------------
+                    # |    |    |    |
+                    # |    |    |    |
+                    # ----------------
+                    echo "setting work preset"
+                    SESSION_NAME='work-dev'
+                    WIDE=false
+                    LARGE=true
+                    SMALL=false
+                elif [ $PRESET == laptop ]; then
+                    # Setting up my preset setting for my laptop screen
+                    # NOTE: I am adding the if to be verbose, but these are basically the default settings
+                    # _____________
+                    # |           |
+                    # |           |
+                    # -------------
+                    # |     |     |
+                    # |     |     |
+                    # -------------
+                    echo "setting laptop preset"
+                    SESSION_NAME='laptop-dev'
+                    WIDE=false
+                    LARGE=false
+                    SMALL=true
+                else
+                    echo "Invalid preset option; accepts 'home', 'work', or 'laptop'"
+                    displayUsageAndExit
+                fi
+            fi ;;
+        *)
+            displayUsageAndExit
+        exit 1 ;;
+  esac
+done
+
+echo "Name:" $SESSION_NAME
+echo "Vertical:" $VERTICAL
+echo "Horizontal:" $HORIZONTAL
+echo "Large:" $LARGE
+echo "Wide:" $WIDE
+
+cd ~/repos
+
+# if the session is already running, just attach to it
+if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    echo "Session $SESSION_NAME already exists. Attaching..."
+    sleep 1
+    tmux -2 attach -t $SESSION_NAME
+    exit 0;
+fi
+
+# create a new session, named $DEFAULT_NAME, and detach from it
+tmux -2 new-session -d -s $SESSION_NAME
+tmux select-layout tiled
+
+if [ $LARGE == true ]; then
+    if [ $VERTICAL == true ]; then
+        # ________________
+        # |    |    |    |
+        # |    |    |    |
+        # |    |----|----|
+        # |    |    |    |
+        # |    |    |    |
+        # ----------------
+        tmux split-window -h
+        tmux split-window -h
+        tmux last-pane
+        tmux split-window -v
+        tmux select-pane -t 3
+        tmux split-window -v
+    elif [ $HORIZONTAL == true ]; then
+        # ________________
+        # |       |      |
+        # |       |      |
+        # |--------------|
+        # |    |    |    |
+        # |    |    |    |
+        # ----------------
+        tmux split-window -v
+        tmux last-pane
+        tmux split-window -h
+        tmux select-pane -t 2
+        tmux split-window -h
+        tmux split-window -h
+    fi
+elif [ $WIDE == true ]; then
+    if [ $VERTICAL == true ]; then
+        # _________________________
+        # |       |       |       |
+        # |       |       |-------|
+        # |       |-------|       |
+        # |       |       |-------|
+        # |       |       |       |
+        # -------------------------
+        tmux split-window -h
+        tmux split-window -h
+        tmux split-window -v
+        tmux split-window -v
+        tmux select-pane -t 1
+        tmux split-window -v
+    elif [ $HORIZONTAL == true ]; then
+        # TODO: I haven't been able to get this view to work like I want it, the spacing is off >> FIX THIS ONE!
+        # _________________________
+        # |       |       |       |
+        # |       |       |       |
+        # |       |---------------|
+        # |       |     |    |    |
+        # |       |     |    |    |
+        # -------------------------
+        tmux split-window -h -p 90
+        tmux split-window -v
+        tmux last-pane
+        tmux split-window -h
+        tmux select-pane -t 3
+        tmux split-window -h
+        tmux split-window -h
+    fi
+else
+    # Default to small screen settings
+    if [ $VERTICAL == true ]; then
+        # _____________
+        # |     |     |
+        # |     |     |
+        # |     |-----|
+        # |     |     |
+        # |     |     |
+        # -------------
+        tmux split-window -h
+        tmux split-window -v
+    elif [ $HORIZONTAL == true ]; then
+        # This is the default setting without any parameters
+        # _____________
+        # |           |
+        # |           |
+        # |-----------|
+        # |     |     |
+        # |     |     |
+        # -------------
+        tmux split-window -v
+        tmux split-window -h
+    fi
+fi
+
+# Attach back to the session
+tmux -2 attach-session -t $SESSION_NAME
