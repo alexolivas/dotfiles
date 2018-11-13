@@ -17,6 +17,7 @@ success () {
 # Run Homebrew through the Brewfile
 success "running brew bundle.."
 brew bundle
+echo ''
 
 # TODO: modify this to display the installer currently running on the terminal window
 # find the installers and run them iteratively
