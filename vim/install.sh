@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-. script/bootstrap.sh --source-only
+export DOTFILES=$HOME/.dotfiles
+source $DOTFILES/script/bootstrap.sh -s
+
+user "--------------------------------------"
+user "Running vim installer"
+user "--------------------------------------"
 
 VIM_DIR=~/.vim
 AUTOLOAD_DIR=$VIM_DIR/autoload
@@ -74,4 +79,4 @@ else
 fi
 
 success "Vim setup complete."
-echo ''
+info " "

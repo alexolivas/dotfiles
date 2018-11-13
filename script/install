@@ -2,23 +2,21 @@
 
 # Run all dotfiles installers.
 
+# TODO: Move this over to a function inside dot_helper and rename dot_helper to installer
+
 set -e
 
 cd "$(dirname $0)"/..
 
-info () {
-    printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
-}
+#info () {
+#    printf "\r  [ \033[00;34m..\033[0m ] \033[00;34m$1\033[0m\n"
+#}
+#
+#success () {
+#    printf "\r\033[2K[ \033[00;32mOK\033[0m ] \033[0;32m$1\033[0m\n"
+#}
 
-success () {
-    printf "\r\033[2K[ \033[00;32mOK\033[0m ] \033[0;32m$1\033[0m\n"
-}
-
-# Run Homebrew through the Brewfile
-success "Install Homebrew bundle"
-brew bundle
-echo ''
-
-# TODO: modify this to display the installer currently running on the terminal window
 # find the installers and run them iteratively
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+find . -name install.sh | while read installer ; do
+    sh -c "${installer}" ;
+done

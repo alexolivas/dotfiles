@@ -6,6 +6,7 @@ DOTFILES=$HOME/.dotfiles
 # (e.g. bash-git-prompt, python etc) 
 ################################################################
 for fname in $(find $DOTFILES -name env.sh); do
+    echo $fname
     . $fname
 done
 

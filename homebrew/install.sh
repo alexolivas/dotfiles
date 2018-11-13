@@ -6,12 +6,19 @@
 # This installs some of the common dependencies needed (or at least desired)
 # using Homebrew.
 
-. script/bootstrap.sh --source-only
+export DOTFILES=$HOME/.dotfiles
+source $DOTFILES/script/bootstrap.sh -s
 
-# Check for Homebrew
+#set -e
+
+user "--------------------------------------"
+user "Running homebrew installer"
+user "--------------------------------------"
+
+# Check if Homebrew is already installed, if not install it
 if test ! $(which brew)
 then
-  info "Installing Homebrew on your system"
+  info "Installing Homebrew on your system.."
 
   # Install the correct homebrew for each OS type
   if test "$(uname)" = "Darwin"
@@ -22,6 +29,13 @@ then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
   fi
 
+else
+    # Update homebrew
+    success "Updating Homebrew.."
+    brew update
 fi
 
-exit 0
+# Run Homebrew through the Brewfile
+success "Installing Homebrew bundles.."
+brew bundle
+info " "

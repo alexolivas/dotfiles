@@ -5,69 +5,10 @@
 #
 # `dot` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
-success () {
-  printf "\r\033[2K[ \033[00;32mOK\033[0m ] \033[0;32m$1\033[0m\n"
-}
-
-set -e
 
 parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
 dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
+SCRIPTS=$dotfilesDirectory/script
 
-displayUsageAndExit() {
-	echo "dot -- dotfiles management"
-	echo ""
-	echo "Usage: dot [options]"
-	echo ""
-	echo "Options:"
-	echo "  -e, --edit    Open dotfiles directory for editing"
-	echo "  -h, --help    Show this help message and exit"
-	exit
-}
-
-while test $# -gt 0; do
-	case "$1" in
-		"-h"|"--help")
-			displayUsageAndExit
-			;;
-		"-e"|"--edit")
-			exec "$EDITOR" "$dotfilesDirectory"
-			exit
-			;;
-		*)
-			echo "Invalid option: $1"
-			displayUsageAndExit
-			;;
-	esac
-	shift
-done
-
-export ZSH=$HOME/.bv-dotfiles
-
-. $ZSH/script/bootstrap.sh --source-only
-
-printf "\r\033[0;34m#######################################################################\033[0m\n"
-printf "\r\033[0;34m#                  Running dot files update script..                  #\033[0m\n"
-printf "\r\033[0;34m#######################################################################\033[0m\n"
-echo ''
-
-# Set macOS defaults
-$ZSH/macos/set-defaults.sh
-
-# Install homebrew
-$ZSH/homebrew/install.sh 2>&1
-
-# Upgrade homebrew
-success "Update Homebrew"
-brew update
-echo ''
-
-# Install software
-$ZSH/script/install
-
-# TODO: Add the ability to re-bootstrap things by calling ./bootstrap.sh instead of ./install.sh
-# Source your bash_profile to apply any updates made to env.sh files
-
-success "Execution of env.sh scripts complete."
-echo ''
-source $HOME/.bash_profile
+# TODO: Add options to this script to run in update or full symlink mode
+source $SCRIPTS/bootstrap.sh -u
