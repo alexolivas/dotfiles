@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. script/bootstrap.sh --source-only
+. ../script/bootstrap.sh --source-only
 
 # Always open everything in Finder's list view. This is important.
 defaults write com.apple.Finder FXPreferredViewStyle Nlsv
