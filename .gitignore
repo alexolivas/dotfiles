@@ -12,4 +12,10 @@ vim.symlink/*
 !vim.symlink/install.sh
 !vim.symlink/vimrc.symlink
 
+# Ignore any certs, docker, and kerberos configuration so they aren't added into version control
+certs/*
+openssl/*
+krb5/*
+docker.symlink/*
+
 .idea/
