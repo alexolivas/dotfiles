@@ -1,0 +1,4 @@
+set -g default-terminal "screen-256color"
+
+# Scroll History
+set -g history-limit 30000

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# TODO: Move this script over to my sensors
+
+export SENSOR=$(docker ps --filter "name=sensor" --format "{{.Names}}")
+docker pull artifactory.blu:1234/bvcontainer/$SENSOR:$1
+systemctl stop $SENSOR.service
+docker volume rm $(docker volume ls -q | grep -v influx)
+docker tag artifactory.blu:1234/bvcontainer/$SENSOR:$1 bvcontainer/$SENSOR:latest
+systemctl start $SENSOR.service

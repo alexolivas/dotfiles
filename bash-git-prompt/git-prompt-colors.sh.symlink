@@ -62,7 +62,7 @@ override_git_prompt_colors() {
 
   # The symbol for "n versions behind of origin"
   GIT_PROMPT_SYMBOLS_BEHIND="${Red} ↓"
-  
+
   # Written before hash of commit, if no name could be found
   # GIT_PROMPT_SYMBOLS_PREHASH=":"
 
