@@ -21,7 +21,7 @@ install () {
 #        security add-trusted-cert -d -r trustRoot -k ~/Library/Keychains/login.keychain $src
 
 #        dst="${CERT_PATH}$(basename "${src}")"
-        echo ""
+        v=0
 #        link_file "$src" "$dst"
     done
 
