@@ -12,7 +12,7 @@ AUTOLOAD_DIR=$VIM_DIR/autoload
 BUNDLES_DIR=$VIM_DIR/bundle
 COLORS_DIR=$VIM_DIR/colors
 
-success "Running vim setup"
+success "Bootstrapping vim directories"
 
 if [ ! -d $VIM_DIR ]; then
     mkdir $VIM_DIR
@@ -48,15 +48,19 @@ fi
 # install plugins and runtime files in their own private directories
 ######################################################################
 
+info " "
+success "Installing plugins"
+
 # Add pathogen
 cd $AUTOLOAD_DIR
 
-if [ ! "pathogen.vim" ]; then
+export PATHOGEN=$AUTOLOAD_DIR/pathogen.vim
+if [ ! -f $PATHOGEN ]; then
     # success "Downloading pathogen.."
     info "Downloading pathogen.."
     curl -LSso pathogen.vim https://tpo.pe/pathogen.vim
     sleep 10
-    info "Pathogen installed!"
+    success "Pathogen installed!"
 else
     # TODO: Add option to update (e.g. git pull) the repositories
     info "Pathogen already installed!"
@@ -72,11 +76,10 @@ if [ ! -d "nerdtree" ]; then
     info "Downloading NERDTree.."
     git clone https://github.com/scrooloose/nerdtree.git
     sleep 10
-    info "NERDTree installed!"
+    success "NERDTree installed!"
 else
     # TODO: Add option to update (e.g. git pull) the repositories
     info "NerdTree already installed!"
 fi
 
-success "Vim setup complete."
 info " "
