@@ -1,0 +1,4 @@
+[global]
+index-url = https://artifactory.blu/api/pypi/pypi/simple
+cert = /usr/local/etc/openssl/certs/bv-ca-bundle.pem
+trusted-host=artifactory.blu
