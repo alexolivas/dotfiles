@@ -16,6 +16,7 @@ brew 'readline'
 brew 'tmux'
 brew 'coreutils'
 brew 'wget'
+brew 'heroku'
 
 # Frameworks
 brew 'node'
