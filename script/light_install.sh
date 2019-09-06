@@ -22,25 +22,36 @@ source $DOTFILES_ROOT/script/utils.sh
 VIMRC="${DOTFILES_ROOT}/vim/vimrc.symlink"
 GIT_PROMPT="${DOTFILES_ROOT}/bash-git-prompt/git-prompt-colors.sh.symlink"
 TMUX="${DOTFILES_ROOT}/tmux/tmux.conf.symlink"
+GIT_IGNORE="${DOTFILES_ROOT}/git/gitignore.symlink"
 
-LIST="${VIMRC} ${GIT_PROMPT} ${TMUX}"
+LIST="${VIMRC} ${GIT_PROMPT} ${TMUX} ${GIT_IGNORE}"
 for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
 do
     dst="$HOME/.$(basename "${src%.*}")"
     if [[ $LIST =~ (^|[[:space:]])$src($|[[:space:]]) ]]; then
         if [ -f $dst ]; then
             # TODO should I make a backup copy?
-            success "Overriding file: ${dst}"
+            success "Overriding dotfile: ${dst}"
+        else
+            success "Copying dotfile: ${dst}"
         fi
         cp $src $dst
     fi
 done
+
+# Set the global gitignore configuration in git
+# TODO: Add an env.sh to do this in the full install as well
+git config --global core.excludesfile ~/.gitignore
+
+success " "
 
 # Copy over my custom tmux configuration script into bin so that its
 # automatically added directly to the bin executable path
 DEV_TMUX="${DOTFILES_ROOT}/bin/devtmux"
 cp $DEV_TMUX /usr/local/bin
 success "Adding devtmux script to /usr/local/bin/"
+
+success " "
 
 # Copy over bash customizations and functions
 BASH_FUNCS="${DOTFILES_ROOT}/bash/env.sh"
