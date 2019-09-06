@@ -1,3 +1,4 @@
+# TODO this needs to be fixed as well
 DOTFILES=$HOME/.dotfiles
 
 ################################################################
@@ -12,7 +13,8 @@ done
 # add bin directory to path
 export PATH="$DOTFILES/bin:$PATH"
 
+# TODO: I don't think I should do this (source python path to the default os x version)
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
-export PATH
+# PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+# export PATH
