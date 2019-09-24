@@ -61,3 +61,6 @@ success "Adding bash customizations to ~/.profile.d/"
 # Create the directory structure I use for my personal projects (e.g. this dotfiles)
 # Ignore the client folder since I won't use a work laptop for these projects
 create_code_directory_structure --ignore clients
+
+# Add keys to the ssh agent: ssh-add ~/.ssh/identity
+# https://confluence.atlassian.com/bbkb/permission-denied-publickey-302811860.html
