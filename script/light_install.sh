@@ -64,3 +64,4 @@ create_code_directory_structure --ignore clients
 
 # Add keys to the ssh agent: ssh-add ~/.ssh/identity
 # https://confluence.atlassian.com/bbkb/permission-denied-publickey-302811860.html
+# https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
