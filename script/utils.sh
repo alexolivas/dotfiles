@@ -18,6 +18,20 @@ fail () {
   exit
 }
 
+source_bash_profile() {
+  # user "--------------------------------------"
+  # user "Sourcing bash_profile"
+  # user "--------------------------------------"
+  # SOURCE_BASH_PROFILE=$(. $HOME/.bash_profile)
+  # success '.bash_profile sourced'
+
+  SOURCE_BASH_PROFILE=$(. $HOME/.bash_profile)
+  while read -r line; do
+    info "$line"
+  done <<< "$SOURCE_BASH_PROFILE"
+  success '.bash_profile sourced'
+}
+
 # Creates a directory structure on your computer, takes in 4 parameters:
 #   1: "--ignore", the first argument, if one is passed in, must be the ignore flag,
 #       if not, every subsequent parameter is ignored
