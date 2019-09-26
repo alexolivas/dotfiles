@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 #
-# dot
+# dot_update
 #
-# `dot` handles installation, updates, things like that. Run it periodically
+# `dot_update` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
 
 parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
