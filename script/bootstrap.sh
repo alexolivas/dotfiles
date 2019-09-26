@@ -76,28 +76,8 @@ done
 #  fi
 #}
 
-#setup_sshconfig () {
-#  if ! [ -f ssh.symlink/config.local ]
-#  then
-#    info 'setup ssh config.local'
-#
-#    user ' - What is your IPA username?'
-#    read -e ipa_username
-#
-#    sed -e "s/IPAUSERNAME/$ipa_username/g" ssh.symlink/config.example > ssh.symlink/config.local
-#  fi
-#}
 
-#setup_krb5 () {
-#  if ! [ -f /etc/krb5.conf ]
-#  then
-#    info 'copying default krb5.conf'
-#    user 'Admin credentials to macbook required'
-#    sudo cp krb5/krb5.conf /etc/krb5.conf
-#    success 'Successfully copied kerberos file'
-#  fi
-#}
-
+# TODO Move this to utils.sh
 link_file () {
   local src=$1 dst=$2
 
