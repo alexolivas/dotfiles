@@ -1,8 +1,9 @@
-cask_args appdir: '/Applications'
+#cask_args appdir: '/Applications'
 
 # tap bundle to enable Brewfile syntax
 # https://robots.thoughtbot.com/brewfile-a-gemfile-but-for-homebrew
 tap 'homebrew/bundle'
+tap 'heroku/brew'
 
 # CLI tools
 brew 'ack'
