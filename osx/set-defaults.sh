@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-. ../script/bootstrap.sh --source-only
+export DOTFILES=$HOME/.dotfiles
+source $DOTFILES/script/bootstrap.sh -s
+
+user "--------------------------------------"
+user "Setting OSX defaults"
+user "--------------------------------------"
+
 
 # Always open everything in Finder's list view. This is important.
 defaults write com.apple.Finder FXPreferredViewStyle Nlsv
@@ -26,3 +32,4 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 defaults write com.apple.screencapture location -string "${HOME}/Documents/Screenshots"
 
 success "OSX defaults set."
+info " "
