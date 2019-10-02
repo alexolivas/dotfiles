@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 #
 # dot_update
@@ -6,9 +6,8 @@
 # `dot_update` handles installation, updates, things like that. Run it periodically
 # to make sure you're on the latest and greatest.
 
-parentDirectory="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P)"
-dotfilesDirectory="$(cd "$( dirname "$parentDirectory" )" && pwd -P)"
-SCRIPTS=$dotfilesDirectory/script
+# Get the directory location of where the original script is located
+DIR="$(dirname "$(readlink "$0")")"
 
-# TODO: Add options to this script to run in update or full symlink mode
-source $SCRIPTS/bootstrap.sh -u
+# Run the bootstrap script with the update option (-u)
+(cd "${DIR}/.." && cd $PWD/script && sh bootstrap.sh -u $1)
