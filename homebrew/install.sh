@@ -1,10 +1,11 @@
 #!/bin/bash
 
-#
+###########################################################################################
 # Homebrew
 #
 # This installs or updated homebrew and any dependencies you want to
 # install on your computer using homebrew
+###########################################################################################
 
 # Source utils script to use its functions here
 cd "$(dirname "$0")/.."
