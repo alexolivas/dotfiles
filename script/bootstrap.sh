@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+###########################################################################################
+# bootstrap
+#
+# This script is responsible for bootstrapping or updating a computer's dotfiles
+###########################################################################################
+
 # Source utils script to use its functions here
 cd "$(dirname "$0")/.."
 export DOTFILES_ROOT=$(pwd -P)
@@ -87,7 +93,7 @@ create_code_directory_structure --ignore clients
 setup_gitconfig
 
 # finally, find all install scripts and run them
-# run_installers
+run_installers
 
 success " "
 success "Done!"
