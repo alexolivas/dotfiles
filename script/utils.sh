@@ -18,16 +18,34 @@ fail () {
   exit
 }
 
+###########################################################################################
 # This method is responsible for rsync'ing all *.rsync files into the home directory
+###########################################################################################
 rsync_dotfiles() {
   user "--------------------------------------"
   user "Syncing dotfiles"
   user "--------------------------------------"
 
-  # TODO: add custom work computer logic >> if there is a profile.d, ignore bash_profile
+  local profiled=$HOME/.profile.c
+  local IGNORE_BASH_PROFILE=false
+  if [ -d "$profiled" ]; then
+    # This is also custom logic for my work computer, again at work we have a dotfiles
+    # project that manages most things, in this particular case, if this directory exists
+    # I am using my work computer and since the dotfiles there has a bash_profile I don't
+    # want to override it here.
+    IGNORE_BASH_PROFILE=true
+  fi
+
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.rsync' -not -path '*.git*')
   do
     dst="$HOME/.$(basename "${src%.*}")"
+
+    # CUSTOM work computer logic to avoid conflicting bash_profiles
+    filename="$(basename -- $src)"
+    if [ $IGNORE_BASH_PROFILE ] && [ $filename == "bash_profile.rsync" ]; then
+      info "skipping; .bash_profile is managed by work dotfiles project"
+      continue
+    fi
 
     if [[ -d $src ]]; then
       if [ -d $dst ]; then
@@ -56,7 +74,9 @@ rsync_dotfiles() {
   info " "
 }
 
+###########################################################################################
 # This method finds any installers and runs them iteratively
+###########################################################################################
 run_installers() {
   find . -name install.sh | while read installer ; do
     sh -c "${installer}" ;
@@ -78,9 +98,11 @@ symlink_custom_scripts() {
   fi
 }
 
+###########################################################################################
 # This method finds all env.sh files and sources them by either adding
 # them to the user's ~/profile.d directory (if it exists) or to the user's
 # local bin (if it doesn't exist)
+###########################################################################################
 source_env_files() {
   user "--------------------------------------"
   user "Sourcing env.sh files to shell"
@@ -105,7 +127,9 @@ source_env_files() {
   info " "
 }
 
+###########################################################################################
 # This method is responsible for setting up your git config by asking a few questions
+###########################################################################################
 setup_gitconfig() {
   user "--------------------------------------"
   user "Setting up git config"
@@ -132,12 +156,14 @@ setup_gitconfig() {
   info " "
 }
 
+###########################################################################################
 # Creates a directory structure on your computer, takes in 4 parameters:
 #   1: "--ignore", the first argument, if one is passed in, must be the ignore flag,
 #       if not, every subsequent parameter is ignored
 #   2: A directory name to omit, no match is ignored
 #   3: A directory name to omit, no match is ignored
 #   4: A directory name to omit, no match is ignored
+###########################################################################################
 create_code_directory_structure() {
   user "--------------------------------------"
   user "Creating custom directories"
