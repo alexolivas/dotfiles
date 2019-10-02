@@ -18,45 +18,175 @@ fail () {
   exit
 }
 
-source_bash_profile() {
-  # user "--------------------------------------"
-  # user "Sourcing bash_profile"
-  # user "--------------------------------------"
-  # SOURCE_BASH_PROFILE=$(. $HOME/.bash_profile)
-  # success '.bash_profile sourced'
+###########################################################################################
+# This method is responsible for rsync'ing all *.rsync files into the home directory
+###########################################################################################
+rsync_dotfiles() {
+  user "--------------------------------------"
+  user "Syncing dotfiles"
+  user "--------------------------------------"
 
-  SOURCE_BASH_PROFILE=$(. $HOME/.bash_profile)
-  while read -r line; do
-    info "$line"
-  done <<< "$SOURCE_BASH_PROFILE"
-  success '.bash_profile sourced'
+  local profiled=$HOME/.profile.c
+  local IGNORE_BASH_PROFILE=false
+  if [ -d "$profiled" ]; then
+    # This is also custom logic for my work computer, again at work we have a dotfiles
+    # project that manages most things, in this particular case, if this directory exists
+    # I am using my work computer and since the dotfiles there has a bash_profile I don't
+    # want to override it here.
+    IGNORE_BASH_PROFILE=true
+  fi
+
+  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.rsync' -not -path '*.git*')
+  do
+    dst="$HOME/.$(basename "${src%.*}")"
+
+    # CUSTOM work computer logic to avoid conflicting bash_profiles
+    filename="$(basename -- $src)"
+    if [ $IGNORE_BASH_PROFILE ] && [ $filename == "bash_profile.rsync" ]; then
+      info "skipping; .bash_profile is managed by work dotfiles project"
+      continue
+    fi
+
+    if [[ -d $src ]]; then
+      if [ -d $dst ]; then
+          info "Overriding dotfile directory: ${dst}"
+      else
+          info "Copying dotfile directory: ${dst}"
+      fi
+
+      # Syncing over a directory and its contents, print out details as it syncs
+      SYNC_DOT_DIRECTORY=$(rsync -av "$src/" $dst)
+      while read -r line; do
+          info "$line"
+      done <<< "$SYNC_DOT_DIRECTORY"
+    elif [[ -f $src ]]; then
+      # Copying over a file
+      if [ -f $dst ]; then
+          info "Overriding dotfile: ${dst}"
+      else
+          info "Copying dotfile: ${dst}"
+      fi
+      rsync $src $dst
+    else
+      fail "Invalid argument: ${src} is neither a file nor a directory"
+    fi
+  done
+  info " "
 }
 
+###########################################################################################
+# This method finds any installers and runs them iteratively
+###########################################################################################
+run_installers() {
+  find . -name install.sh | while read installer ; do
+    sh -c "${installer}" ;
+  done
+}
+
+# This method adds any custom scripts found in $DOTFILES_ROOT/bin as
+# symlinks to /usr/loca/bin so that they are available in your shell
+symlink_custom_scripts() {
+  local custom_bin=$DOTFILES_ROOT/bin
+  if [ -d "$custom_bin" ]; then
+    user "--------------------------------------"
+    user "Linking scripts to /usr/local/bin"
+    user "--------------------------------------"
+    for script in $custom_bin/*; do
+      link_file $script /usr/local/bin
+    done
+    info " "
+  fi
+}
+
+###########################################################################################
+# This method finds all env.sh files and sources them by either adding
+# them to the user's ~/profile.d directory (if it exists) or to the user's
+# local bin (if it doesn't exist)
+###########################################################################################
+source_env_files() {
+  user "--------------------------------------"
+  user "Sourcing env.sh files to shell"
+  user "--------------------------------------"
+  local profiled=$HOME/.profile.d
+  if [ -d "$profiled" ]; then
+    # This is extremely custom for my work computer; we have a dotfiles project at work
+    # which takes care of a lot of things these env.sh files do. That dotfiles project
+    # creates a ~/profile.d directory so if that exists simply copy over my bash/env.sh
+    # file under a different name since that one contains my custom bash functions and
+    # setup. All others can be ignored.
+    BASH_FUNCS="${DOTFILES_ROOT}/bash/env.sh"
+    cp $BASH_FUNCS $profiled/aolivas-bash.sh
+    info "Adding bash customizations from bash/env.sh to ~/.profile.d/"
+  else
+    info ".profile.d does NOT exists, find all env.sh and source them"
+    for fname in $(find $DOTFILES_ROOT -name env.sh); do
+      info $fname
+      # . $fname
+    done
+  fi
+  info " "
+}
+
+###########################################################################################
+# This method is responsible for setting up your git config by asking a few questions
+###########################################################################################
+setup_gitconfig() {
+  user "--------------------------------------"
+  user "Setting up git config"
+  user "--------------------------------------"
+
+  if ! [ -f git/gitconfig.local.symlink ]; then
+    info 'setup gitconfig'
+#
+#    git_credential='cache'
+#    if [ "$(uname -s)" == "Darwin" ]
+#    then
+#      git_credential='osxkeychain'
+#    fi
+#
+#    user ' - What is your github author name?'
+#    read -e git_authorname
+#    user ' - What is your github author email?'
+#    read -e git_authoremail
+#
+#    sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
+#
+#    success 'gitconfig'
+  fi
+  info " "
+}
+
+###########################################################################################
 # Creates a directory structure on your computer, takes in 4 parameters:
 #   1: "--ignore", the first argument, if one is passed in, must be the ignore flag,
 #       if not, every subsequent parameter is ignored
 #   2: A directory name to omit, no match is ignored
 #   3: A directory name to omit, no match is ignored
 #   4: A directory name to omit, no match is ignored
+###########################################################################################
 create_code_directory_structure() {
-  CODE_DIRECTORY=$HOME/code
+  user "--------------------------------------"
+  user "Creating custom directories"
+  user "--------------------------------------"
+
+  local CODE_DIRECTORY=$HOME/code
 
   # Keep track of personal project repos
-  PERSONAL=$CODE_DIRECTORY/personal
+  local PERSONAL=$CODE_DIRECTORY/personal
 
   # Keep track of lab repos  
-  LAB=$CODE_DIRECTORY/lab
-  COMPONENTS=$LAB/components
-  GAMES=$LAB/fun
+  local LAB=$CODE_DIRECTORY/lab
+  local COMPONENTS=$LAB/components
+  local GAMES=$LAB/fun
 
   # Keep track of client repos
-  CLIENTS=$CODE_DIRECTORY/clients
+  local CLIENTS=$CODE_DIRECTORY/clients
 
   # Initialize the array of directories to create with the root,
   # then dynamically build it based on the ignore params passed in
-  DIRS_TO_CREATE=($CODE_DIRECTORY)
+  local DIRS_TO_CREATE=($CODE_DIRECTORY)
 
-  IGNORE_LIST=($2 $3 $4)
+  local IGNORE_LIST=($2 $3 $4)
   if [ "$1" == "--ignore" ] && (( ${#IGNORE_LIST[@]} )); then
     index=1
 
@@ -100,24 +230,43 @@ create_code_directory_structure() {
     )
   fi
 
-  success " "
   for dir in ${DIRS_TO_CREATE[*]}; do
     create_directory $dir
   done
+  info " "
 }
 
 ############################################################
 #            Private Method helper functions               #
 ############################################################
 
+# This method is responsible for creating a symlink
+link_file() {
+  local src=$1 dst=$2
+  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]; then
+    filename="$(basename -- $src)"
+    if [ -L ${dst}/${filename} ] && [ -e ${dst}/${filename} ]; then
+      # This symlink exists and is not broken, don't do anything
+      info "skipping; $filename already linked to $dst"
+    else
+      # This is a new symlink, create it
+      ln -s "$src" "$dst"
+      info "Created symlink: linked $filename to $dst"
+    fi
+  else
+    # TODO: this has to be a warning
+    user "Warning! Symlink destination ${dst} is not a file nor directory"
+  fi
+}
+
 # Creates a directory if it doesn't already exist
 create_directory() {
   if [ ! -d "$1" ]; then
     # The directory does not exist, create it
-    success "Creating directory: $1"
+    info "Creating directory: $1"
     mkdir -p $1
   else
-    success "$1 already exists"
+    info "skipping; $1 already exists"
   fi
 }
 

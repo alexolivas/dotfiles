@@ -1,7 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-export DOTFILES=$HOME/.dotfiles
-source $DOTFILES/script/bootstrap.sh -s
+###########################################################################################
+# vim
+#
+# This installs any customizations I want to use in the vim plugin
+###########################################################################################
+
+# Source utils script to use its functions here
+cd "$(dirname "$0")/.."
+export DOTFILES_ROOT=$(pwd -P)
+source $DOTFILES_ROOT/script/utils.sh
+
 
 user "--------------------------------------"
 user "Running vim installer"
@@ -18,28 +27,28 @@ if [ ! -d $VIM_DIR ]; then
     mkdir $VIM_DIR
     info "Created vim directory"
 else
-    info "vim directory already exists"
+    info "skipping; vim directory already exists"
 fi
 
 if [ ! -d $AUTOLOAD_DIR ]; then
     mkdir $AUTOLOAD_DIR
     info "Created autoload directory"
 else
-    info "vim autoload directory already exists"
+    info "skipping; vim autoload directory already exists"
 fi
 
 if [ ! -d $BUNDLES_DIR ]; then
     mkdir $BUNDLES_DIR
     info "Created bundles directory"
 else
-    info "vim bundles directory already exists"
+    info "skipping; vim bundles directory already exists"
 fi
 
 if [ ! -d $COLORS_DIR ]; then
     mkdir $COLORS_DIR
     info "Created colors directory"
 else
-    info "vim color directory already exists"
+    info "skipping; vim color directory already exists"
 fi
 
 
@@ -49,37 +58,47 @@ fi
 ######################################################################
 
 info " "
-success "Installing plugins"
+success "Installing vim plugins"
 
 # Add pathogen
 cd $AUTOLOAD_DIR
 
 export PATHOGEN=$AUTOLOAD_DIR/pathogen.vim
 if [ ! -f $PATHOGEN ]; then
-    # success "Downloading pathogen.."
-    info "Downloading pathogen.."
+    info "Downloading pathogen plugin.."
+    
+    # PATHOGEN_DOWNLOAD=$(curl -LSso pathogen.vim https://tpo.pe/pathogen.vim)
+    # while read -r line; do
+    #     info $line
+    # done <<< "$PATHOGEN_DOWNLOAD"
     curl -LSso pathogen.vim https://tpo.pe/pathogen.vim
-    sleep 10
-    success "Pathogen installed!"
+    # sleep 3
+    info "Pathogen installed!"
 else
-    # TODO: Add option to update (e.g. git pull) the repositories
     info "Pathogen already installed!"
 fi
 
-######################################################################
-# Add your custom bundles to the bundles directory
-######################################################################
+# ######################################################################
+# # Add your custom bundles to the bundles directory
+# ######################################################################
+
+info " "
+success "Installing vim bundles"
 
 cd $BUNDLES_DIR
 
 if [ ! -d "nerdtree" ]; then
-    info "Downloading NERDTree.."
-    git clone https://github.com/scrooloose/nerdtree.git
-    sleep 10
-    success "NERDTree installed!"
+    info "Downloading NERDTree bundle.."
+    git clone https://github.com/scrooloose/nerdtree.git 2>&1 |
+        while read -r line ; do
+            info "$line"
+        done
+    info "NERDTree installed!"
 else
     # TODO: Add option to update (e.g. git pull) the repositories
     info "NerdTree already installed!"
 fi
 
+# Go back to the dotfiles directory
+cd $DOTFILES_ROOT
 info " "
