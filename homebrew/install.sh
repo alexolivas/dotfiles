@@ -3,18 +3,13 @@
 #
 # Homebrew
 #
-# This installs some of the common dependencies needed (or at least desired)
-# using Homebrew.
-
-# export DOTFILES=$HOME/.dotfiles
-# source $DOTFILES/script/bootstrap.sh -s
+# This installs or updated homebrew and any dependencies you want to
+# install on your computer using homebrew
 
 # Source utils script to use its functions here
 cd "$(dirname "$0")/.."
 export DOTFILES_ROOT=$(pwd -P)
 source $DOTFILES_ROOT/script/utils.sh
-
-#set -e
 
 user "--------------------------------------"
 user "Running homebrew installer"
