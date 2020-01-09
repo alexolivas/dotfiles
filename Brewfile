@@ -18,6 +18,7 @@ brew 'tmux'
 brew 'coreutils'
 brew 'wget'
 brew 'heroku'
+brew 'circleci'
 
 # Frameworks
 brew 'node'
